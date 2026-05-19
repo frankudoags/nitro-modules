@@ -27,6 +27,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "nitro-biometrics",
+        {
+          "biometricTypes": ["touch_id", "face", "iris"]
+        }
+      ]
+    ]
   }
 }

@@ -15,6 +15,8 @@ namespace margelo::nitro::nitrobiometrics {
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
       prototype.registerHybridMethod("works", &HybridNitroBiometricsSpec::works);
+      prototype.registerHybridMethod("isAvailable", &HybridNitroBiometricsSpec::isAvailable);
+      prototype.registerHybridMethod("authenticate", &HybridNitroBiometricsSpec::authenticate);
     });
   }
 

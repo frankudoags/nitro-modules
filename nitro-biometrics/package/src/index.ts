@@ -3,3 +3,12 @@ import type { NitroBiometrics as NitroBiometricsSpec } from './specs/nitro-biome
 
 export const NitroBiometrics =
   NitroModules.createHybridObject<NitroBiometricsSpec>('NitroBiometrics')
+
+export type {
+  BiometryType,
+  BiometryTypeResult,
+  BiometricsAvailability,
+  BiometricsAuthResult,
+  BiometricsKey,
+  BiometricsSignature,
+} from './specs/types'

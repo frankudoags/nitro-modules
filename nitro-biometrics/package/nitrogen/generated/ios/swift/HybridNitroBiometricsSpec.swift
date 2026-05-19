@@ -14,6 +14,8 @@ public protocol HybridNitroBiometricsSpec_protocol: HybridObject {
 
   // Methods
   func works() throws -> Bool
+  func isAvailable() throws -> BiometricsAvailability
+  func authenticate(reason: String) throws -> Promise<BiometricsAuthResult>
 }
 
 public extension HybridNitroBiometricsSpec_protocol {

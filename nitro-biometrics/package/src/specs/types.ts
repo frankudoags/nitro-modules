@@ -3,7 +3,7 @@ export enum BiometryType {
     TOUCH_ID = 1,
     FINGERPRINT = 2,
     FACE = 3,           // Android face unlock
-    IRIS = 4,           // Android iris scanner
+    IRIS = 4,           // Android iris scanner or apple's optic ID
 }
 
 

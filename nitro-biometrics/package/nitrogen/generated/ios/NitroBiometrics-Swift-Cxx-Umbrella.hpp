@@ -8,14 +8,28 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `BiometricsAuthResult` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `BiometricsAvailability` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometryType` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
 // Forward declaration of `HybridNitroBiometricsSpec` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 
 // Include C++ defined types
+#include "BiometricsAuthResult.hpp"
+#include "BiometricsAvailability.hpp"
+#include "BiometryType.hpp"
 #include "HybridNitroBiometricsSpec.hpp"
+#include <NitroModules/Null.hpp>
+#include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
 #include <memory>
+#include <optional>
+#include <string>
+#include <variant>
 
 // C++ helpers for Swift
 #include "NitroBiometrics-Swift-Cxx-Bridge.hpp"

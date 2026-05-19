@@ -55,6 +55,8 @@ namespace margelo::nitro::nitrobiometrics {
   public:
     // Methods
     bool works() override;
+    BiometricsAvailability isAvailable() override;
+    std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) override;
 
   private:
     jni::global_ref<JHybridNitroBiometricsSpec::JavaPart> _javaPart;
