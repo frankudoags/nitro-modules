@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.oysterai.example",
+      "bundleIdentifier": "com.frankudoags.nitrobiometricsexample",
       "appleTeamId": "T2A5F348HW"
     },
     "android": {
