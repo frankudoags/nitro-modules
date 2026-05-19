@@ -3,7 +3,7 @@ import LocalAuthentication
 import Security
 import NitroModules
 
-class HybridNitroBiometric: HybridNitroBiometricsSpec {
+class HybridNitroBiometrics: HybridNitroBiometricsSpec {
     func works() throws -> Bool {
         true
     }
