@@ -1,0 +1,30 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": [
+    "nitrobiometrics"
+  ],
+  "ios": {
+    "iosModuleName": "NitroBiometrics"
+  },
+  "android": {
+    "androidNamespace": [
+      "nitrobiometrics"
+    ],
+    "androidCxxLibName": "NitroBiometrics"
+  },
+  "autolinking": {
+    "NitroBiometrics": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridNitroBiometrics"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridNitroBiometrics"
+      }
+    }
+  },
+  "ignorePaths": [
+    "**/node_modules"
+  ]
+}
