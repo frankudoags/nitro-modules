@@ -1,0 +1,30 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": [
+    "nitrosqlite"
+  ],
+  "ios": {
+    "iosModuleName": "NitroSqlite"
+  },
+  "android": {
+    "androidNamespace": [
+      "nitrosqlite"
+    ],
+    "androidCxxLibName": "NitroSqlite"
+  },
+  "autolinking": {
+    "Sqlite": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridSqlite"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridSqlite"
+      }
+    }
+  },
+  "ignorePaths": [
+    "**/node_modules"
+  ]
+}

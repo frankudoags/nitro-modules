@@ -1,0 +1,30 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": [
+    "nitrofs"
+  ],
+  "ios": {
+    "iosModuleName": "NitroFs"
+  },
+  "android": {
+    "androidNamespace": [
+      "nitrofs"
+    ],
+    "androidCxxLibName": "NitroFs"
+  },
+  "autolinking": {
+    "Fs": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridFs"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridFs"
+      }
+    }
+  },
+  "ignorePaths": [
+    "**/node_modules"
+  ]
+}

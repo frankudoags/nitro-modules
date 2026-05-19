@@ -1,0 +1,30 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": [
+    "nitroclipboard"
+  ],
+  "ios": {
+    "iosModuleName": "NitroClipboard"
+  },
+  "android": {
+    "androidNamespace": [
+      "nitroclipboard"
+    ],
+    "androidCxxLibName": "NitroClipboard"
+  },
+  "autolinking": {
+    "Clipboard": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridClipboard"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridClipboard"
+      }
+    }
+  },
+  "ignorePaths": [
+    "**/node_modules"
+  ]
+}
