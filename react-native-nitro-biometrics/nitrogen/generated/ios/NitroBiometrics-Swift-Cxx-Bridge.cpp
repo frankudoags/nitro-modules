@@ -14,6 +14,38 @@
 
 namespace margelo::nitro::nitrobiometrics::bridge::swift {
 
+  // pragma MARK: std::function<void(const BiometricsAuthResult& /* result */)>
+  Func_void_BiometricsAuthResult create_Func_void_BiometricsAuthResult(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_BiometricsAuthResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const BiometricsAuthResult& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_std__exception_ptr::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::exception_ptr& error) mutable -> void {
+      swiftClosure.call(error);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsKey& /* result */)>
+  Func_void_BiometricsKey create_Func_void_BiometricsKey(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_BiometricsKey::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const BiometricsKey& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsSignature& /* result */)>
+  Func_void_BiometricsSignature create_Func_void_BiometricsSignature(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_BiometricsSignature::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const BiometricsSignature& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::shared_ptr<HybridNitroBiometricsSpec>
   std::shared_ptr<HybridNitroBiometricsSpec> create_std__shared_ptr_HybridNitroBiometricsSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
     NitroBiometrics::HybridNitroBiometricsSpec_cxx swiftPart = NitroBiometrics::HybridNitroBiometricsSpec_cxx::fromUnsafe(swiftUnsafePointer);

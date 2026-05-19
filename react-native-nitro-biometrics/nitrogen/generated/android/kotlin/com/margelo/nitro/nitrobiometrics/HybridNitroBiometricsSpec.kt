@@ -10,6 +10,7 @@ package com.margelo.nitro.nitrobiometrics
 import androidx.annotation.Keep
 import com.facebook.jni.HybridData
 import com.facebook.proguard.annotations.DoNotStrip
+import com.margelo.nitro.core.Promise
 import com.margelo.nitro.core.HybridObject
 
 /**
@@ -30,7 +31,23 @@ abstract class HybridNitroBiometricsSpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun sum(num1: Double, num2: Double): Double
+  abstract fun isAvailable(): BiometricsAvailability
+  
+  @DoNotStrip
+  @Keep
+  abstract fun authenticate(reason: String): Promise<BiometricsAuthResult>
+  
+  @DoNotStrip
+  @Keep
+  abstract fun createKeys(): Promise<BiometricsKey>
+  
+  @DoNotStrip
+  @Keep
+  abstract fun signPayload(payload: String): Promise<BiometricsSignature>
+  
+  @DoNotStrip
+  @Keep
+  abstract fun deleteKeys(): Unit
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

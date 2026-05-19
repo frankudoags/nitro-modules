@@ -13,9 +13,21 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `BiometricsAvailability` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometricsAuthResult` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `BiometricsKey` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `BiometricsSignature` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
-
-
+#include "BiometricsAvailability.hpp"
+#include "BiometricsAuthResult.hpp"
+#include <NitroModules/Promise.hpp>
+#include <string>
+#include "BiometricsKey.hpp"
+#include "BiometricsSignature.hpp"
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -48,7 +60,11 @@ namespace margelo::nitro::nitrobiometrics {
 
     public:
       // Methods
-      virtual double sum(double num1, double num2) = 0;
+      virtual BiometricsAvailability isAvailable() = 0;
+      virtual std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) = 0;
+      virtual std::shared_ptr<Promise<BiometricsKey>> createKeys() = 0;
+      virtual std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) = 0;
+      virtual void deleteKeys() = 0;
 
     protected:
       // Hybrid Setup

@@ -13,7 +13,11 @@ public protocol HybridNitroBiometricsSpec_protocol: HybridObject {
   
 
   // Methods
-  func sum(num1: Double, num2: Double) throws -> Double
+  func isAvailable() throws -> BiometricsAvailability
+  func authenticate(reason: String) throws -> Promise<BiometricsAuthResult>
+  func createKeys() throws -> Promise<BiometricsKey>
+  func signPayload(payload: String) throws -> Promise<BiometricsSignature>
+  func deleteKeys() throws -> Void
 }
 
 public extension HybridNitroBiometricsSpec_protocol {

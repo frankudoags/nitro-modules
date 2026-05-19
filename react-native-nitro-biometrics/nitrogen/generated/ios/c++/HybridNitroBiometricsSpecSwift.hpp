@@ -12,9 +12,27 @@
 // Forward declaration of `HybridNitroBiometricsSpec_cxx` to properly resolve imports.
 namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 
+// Forward declaration of `BiometricsAvailability` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometryType` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `BiometricsAuthResult` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `BiometricsKey` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `BiometricsSignature` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
-
-
+#include "BiometricsAvailability.hpp"
+#include <NitroModules/Null.hpp>
+#include "BiometryType.hpp"
+#include <variant>
+#include <optional>
+#include <string>
+#include "BiometricsAuthResult.hpp"
+#include <NitroModules/Promise.hpp>
+#include "BiometricsKey.hpp"
+#include "BiometricsSignature.hpp"
 
 #include "NitroBiometrics-Swift-Cxx-Umbrella.hpp"
 
@@ -66,13 +84,43 @@ namespace margelo::nitro::nitrobiometrics {
 
   public:
     // Methods
-    inline double sum(double num1, double num2) override {
-      auto __result = _swiftPart.sum(std::forward<decltype(num1)>(num1), std::forward<decltype(num2)>(num2));
+    inline BiometricsAvailability isAvailable() override {
+      auto __result = _swiftPart.isAvailable();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
       auto __value = std::move(__result.value());
       return __value;
+    }
+    inline std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) override {
+      auto __result = _swiftPart.authenticate(reason);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<BiometricsKey>> createKeys() override {
+      auto __result = _swiftPart.createKeys();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) override {
+      auto __result = _swiftPart.signPayload(payload);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+      auto __value = std::move(__result.value());
+      return __value;
+    }
+    inline void deleteKeys() override {
+      auto __result = _swiftPart.deleteKeys();
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
     }
 
   private:

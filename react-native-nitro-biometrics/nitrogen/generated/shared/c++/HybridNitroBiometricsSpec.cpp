@@ -14,7 +14,11 @@ namespace margelo::nitro::nitrobiometrics {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridMethod("sum", &HybridNitroBiometricsSpec::sum);
+      prototype.registerHybridMethod("isAvailable", &HybridNitroBiometricsSpec::isAvailable);
+      prototype.registerHybridMethod("authenticate", &HybridNitroBiometricsSpec::authenticate);
+      prototype.registerHybridMethod("createKeys", &HybridNitroBiometricsSpec::createKeys);
+      prototype.registerHybridMethod("signPayload", &HybridNitroBiometricsSpec::signPayload);
+      prototype.registerHybridMethod("deleteKeys", &HybridNitroBiometricsSpec::deleteKeys);
     });
   }
 

@@ -6,9 +6,28 @@
 //
 
 import Foundation
+import NitroModules
 
 class HybridNitroBiometrics: HybridNitroBiometricsSpec {
-    func sum(num1: Double, num2: Double) throws -> Double {
-        return num1 + num2
+    func isAvailable() throws -> BiometricsAvailability {
+        
     }
+    
+    func authenticate(reason: String) throws -> NitroModules.Promise<BiometricsAuthResult> {
+        <#code#>
+    }
+    
+    func createKeys() throws -> NitroModules.Promise<BiometricsKey> {
+        <#code#>
+    }
+    
+    func signPayload(payload: String) throws -> NitroModules.Promise<BiometricsSignature> {
+        <#code#>
+    }
+    
+    func deleteKeys() throws {
+        <#code#>
+    }
+    
+    
 }
