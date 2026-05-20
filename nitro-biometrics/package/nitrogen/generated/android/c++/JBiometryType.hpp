@@ -57,6 +57,9 @@ namespace margelo::nitro::nitrobiometrics {
         case BiometryType::IRIS:
           static const auto fieldIRIS = clazz->getStaticField<JBiometryType>("IRIS");
           return clazz->getStaticFieldValue(fieldIRIS);
+        case BiometryType::NONE:
+          static const auto fieldNONE = clazz->getStaticField<JBiometryType>("NONE");
+          return clazz->getStaticFieldValue(fieldNONE);
         default:
           std::string stringValue = std::to_string(static_cast<int>(value));
           throw std::invalid_argument("Invalid enum value (" + stringValue + "!");

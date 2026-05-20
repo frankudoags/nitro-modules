@@ -18,7 +18,7 @@ public extension BiometricsAvailability {
   /**
    * Create a new instance of `BiometricsAvailability`.
    */
-  init(isAvailable: Bool, biometryType: BiometryTypeResult?, error: String?) {
+  init(isAvailable: Bool, biometryType: SupportedBiometryType?, error: String?) {
     self.init(isAvailable, { () -> bridge.std__optional_std__variant_nitro__NullType__BiometryType__ in
       if let __unwrappedValue = biometryType {
         return bridge.create_std__optional_std__variant_nitro__NullType__BiometryType__({ () -> bridge.std__variant_nitro__NullType__BiometryType_ in
@@ -47,11 +47,11 @@ public extension BiometricsAvailability {
   }
   
   @inline(__always)
-  var biometryType: BiometryTypeResult? {
-    return { () -> BiometryTypeResult? in
+  var biometryType: SupportedBiometryType? {
+    return { () -> SupportedBiometryType? in
       if bridge.has_value_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType) {
         let __unwrapped = bridge.get_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType)
-        return { () -> BiometryTypeResult in
+        return { () -> SupportedBiometryType in
           let __variant = bridge.std__variant_nitro__NullType__BiometryType_(__unwrapped)
           switch __variant.index() {
             case 0:

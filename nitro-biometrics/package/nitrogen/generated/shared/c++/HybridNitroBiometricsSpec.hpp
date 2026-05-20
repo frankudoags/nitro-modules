@@ -15,13 +15,28 @@
 
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometryType` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `BiometricsKey` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `BiometricsSignature` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
 #include "BiometricsAvailability.hpp"
-#include "BiometricsAuthResult.hpp"
+#include <NitroModules/Null.hpp>
+#include "BiometryType.hpp"
+#include <variant>
+#include <vector>
+#include "BiometricsPermissionResponse.hpp"
 #include <NitroModules/Promise.hpp>
 #include <string>
+#include "BiometricsAuthResult.hpp"
+#include "BiometricsKey.hpp"
+#include "BiometricsSignature.hpp"
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -54,9 +69,17 @@ namespace margelo::nitro::nitrobiometrics {
 
     public:
       // Methods
-      virtual bool works() = 0;
       virtual BiometricsAvailability isAvailable() = 0;
+      virtual std::vector<std::variant<nitro::NullType, BiometryType>> supportedAuthenticationTypes() = 0;
+      virtual bool isEnrolled() = 0;
+      virtual std::shared_ptr<Promise<BiometricsPermissionResponse>> getPermissionsAsync() = 0;
+      virtual std::shared_ptr<Promise<BiometricsPermissionResponse>> requestPermissionsAsync(const std::string& reason) = 0;
       virtual std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) = 0;
+      virtual std::shared_ptr<Promise<BiometricsKey>> createKeys() = 0;
+      virtual bool keysExist() = 0;
+      virtual std::shared_ptr<Promise<BiometricsKey>> getPublicKey() = 0;
+      virtual void deleteKeys() = 0;
+      virtual std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) = 0;
 
     protected:
       // Hybrid Setup

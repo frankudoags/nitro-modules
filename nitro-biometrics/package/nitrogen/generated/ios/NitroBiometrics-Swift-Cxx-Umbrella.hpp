@@ -12,6 +12,14 @@
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometricsKey` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
+// Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatus; }
+// Forward declaration of `BiometricsSignature` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
 // Forward declaration of `HybridNitroBiometricsSpec` to properly resolve imports.
@@ -20,6 +28,10 @@ namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 // Include C++ defined types
 #include "BiometricsAuthResult.hpp"
 #include "BiometricsAvailability.hpp"
+#include "BiometricsKey.hpp"
+#include "BiometricsPermissionResponse.hpp"
+#include "BiometricsPermissionStatus.hpp"
+#include "BiometricsSignature.hpp"
 #include "BiometryType.hpp"
 #include "HybridNitroBiometricsSpec.hpp"
 #include <NitroModules/Null.hpp>
@@ -30,6 +42,7 @@ namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 // C++ helpers for Swift
 #include "NitroBiometrics-Swift-Cxx-Bridge.hpp"

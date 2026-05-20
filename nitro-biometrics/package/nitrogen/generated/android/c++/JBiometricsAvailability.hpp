@@ -12,7 +12,7 @@
 
 #include "BiometryType.hpp"
 #include "JBiometryType.hpp"
-#include "JBiometryTypeResult.hpp"
+#include "JSupportedBiometryType.hpp"
 #include <NitroModules/JNull.hpp>
 #include <NitroModules/Null.hpp>
 #include <optional>
@@ -40,8 +40,8 @@ namespace margelo::nitro::nitrobiometrics {
       static const auto clazz = javaClassStatic();
       static const auto fieldIsAvailable = clazz->getField<jboolean>("isAvailable");
       jboolean isAvailable = this->getFieldValue(fieldIsAvailable);
-      static const auto fieldBiometryType = clazz->getField<JBiometryTypeResult>("biometryType");
-      jni::local_ref<JBiometryTypeResult> biometryType = this->getFieldValue(fieldBiometryType);
+      static const auto fieldBiometryType = clazz->getField<JSupportedBiometryType>("biometryType");
+      jni::local_ref<JSupportedBiometryType> biometryType = this->getFieldValue(fieldBiometryType);
       static const auto fieldError = clazz->getField<jni::JString>("error");
       jni::local_ref<jni::JString> error = this->getFieldValue(fieldError);
       return BiometricsAvailability(
@@ -57,13 +57,13 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JBiometricsAvailability::javaobject> fromCpp(const BiometricsAvailability& value) {
-      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JBiometryTypeResult>, jni::alias_ref<jni::JString>);
+      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JSupportedBiometryType>, jni::alias_ref<jni::JString>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         value.isAvailable,
-        value.biometryType.has_value() ? JBiometryTypeResult::fromCpp(value.biometryType.value()) : nullptr,
+        value.biometryType.has_value() ? JSupportedBiometryType::fromCpp(value.biometryType.value()) : nullptr,
         value.error.has_value() ? jni::make_jstring(value.error.value()) : nullptr
       );
     }

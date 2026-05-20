@@ -54,9 +54,17 @@ namespace margelo::nitro::nitrobiometrics {
 
   public:
     // Methods
-    bool works() override;
     BiometricsAvailability isAvailable() override;
+    std::vector<std::variant<nitro::NullType, BiometryType>> supportedAuthenticationTypes() override;
+    bool isEnrolled() override;
+    std::shared_ptr<Promise<BiometricsPermissionResponse>> getPermissionsAsync() override;
+    std::shared_ptr<Promise<BiometricsPermissionResponse>> requestPermissionsAsync(const std::string& reason) override;
     std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) override;
+    std::shared_ptr<Promise<BiometricsKey>> createKeys() override;
+    bool keysExist() override;
+    std::shared_ptr<Promise<BiometricsKey>> getPublicKey() override;
+    void deleteKeys() override;
+    std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) override;
 
   private:
     jni::global_ref<JHybridNitroBiometricsSpec::JavaPart> _javaPart;

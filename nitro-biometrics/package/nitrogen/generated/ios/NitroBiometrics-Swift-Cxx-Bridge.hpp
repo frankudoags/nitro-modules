@@ -12,6 +12,14 @@
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometricsKey` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
+// Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatus; }
+// Forward declaration of `BiometricsSignature` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
 // Forward declaration of `HybridNitroBiometricsSpec` to properly resolve imports.
@@ -24,6 +32,10 @@ namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 // Include C++ defined types
 #include "BiometricsAuthResult.hpp"
 #include "BiometricsAvailability.hpp"
+#include "BiometricsKey.hpp"
+#include "BiometricsPermissionResponse.hpp"
+#include "BiometricsPermissionStatus.hpp"
+#include "BiometricsSignature.hpp"
 #include "BiometryType.hpp"
 #include "HybridNitroBiometricsSpec.hpp"
 #include <NitroModules/Null.hpp>
@@ -36,6 +48,7 @@ namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 /**
  * Contains specialized versions of C++ templated types so they can be accessed from Swift,
@@ -102,6 +115,73 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     return optional.value();
   }
   
+  // pragma MARK: std::vector<std::variant<nitro::NullType, BiometryType>>
+  /**
+   * Specialized version of `std::vector<std::variant<nitro::NullType, BiometryType>>`.
+   */
+  using std__vector_std__variant_nitro__NullType__BiometryType__ = std::vector<std::variant<nitro::NullType, BiometryType>>;
+  inline std::vector<std::variant<nitro::NullType, BiometryType>> create_std__vector_std__variant_nitro__NullType__BiometryType__(size_t size) noexcept {
+    std::vector<std::variant<nitro::NullType, BiometryType>> vector;
+    vector.reserve(size);
+    return vector;
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<BiometricsPermissionResponse>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<BiometricsPermissionResponse>>`.
+   */
+  using std__shared_ptr_Promise_BiometricsPermissionResponse__ = std::shared_ptr<Promise<BiometricsPermissionResponse>>;
+  inline std::shared_ptr<Promise<BiometricsPermissionResponse>> create_std__shared_ptr_Promise_BiometricsPermissionResponse__() noexcept {
+    return Promise<BiometricsPermissionResponse>::create();
+  }
+  inline PromiseHolder<BiometricsPermissionResponse> wrap_std__shared_ptr_Promise_BiometricsPermissionResponse__(std::shared_ptr<Promise<BiometricsPermissionResponse>> promise) noexcept {
+    return PromiseHolder<BiometricsPermissionResponse>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsPermissionResponse& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const BiometricsPermissionResponse&)>`.
+   */
+  using Func_void_BiometricsPermissionResponse = std::function<void(const BiometricsPermissionResponse& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const BiometricsPermissionResponse& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_BiometricsPermissionResponse_Wrapper final {
+  public:
+    explicit Func_void_BiometricsPermissionResponse_Wrapper(std::function<void(const BiometricsPermissionResponse& /* result */)>&& func): _function(std::make_unique<std::function<void(const BiometricsPermissionResponse& /* result */)>>(std::move(func))) {}
+    inline void call(BiometricsPermissionResponse result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const BiometricsPermissionResponse& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_BiometricsPermissionResponse create_Func_void_BiometricsPermissionResponse(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_BiometricsPermissionResponse_Wrapper wrap_Func_void_BiometricsPermissionResponse(Func_void_BiometricsPermissionResponse value) noexcept {
+    return Func_void_BiometricsPermissionResponse_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
+  /**
+   * Specialized version of `std::function<void(const std::exception_ptr&)>`.
+   */
+  using Func_void_std__exception_ptr = std::function<void(const std::exception_ptr& /* error */)>;
+  /**
+   * Wrapper class for a `std::function<void(const std::exception_ptr& / * error * /)>`, this can be used from Swift.
+   */
+  class Func_void_std__exception_ptr_Wrapper final {
+  public:
+    explicit Func_void_std__exception_ptr_Wrapper(std::function<void(const std::exception_ptr& /* error */)>&& func): _function(std::make_unique<std::function<void(const std::exception_ptr& /* error */)>>(std::move(func))) {}
+    inline void call(std::exception_ptr error) const noexcept {
+      _function->operator()(error);
+    }
+  private:
+    std::unique_ptr<std::function<void(const std::exception_ptr& /* error */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) noexcept {
+    return Func_void_std__exception_ptr_Wrapper(std::move(value));
+  }
+  
   // pragma MARK: std::shared_ptr<Promise<BiometricsAuthResult>>
   /**
    * Specialized version of `std::shared_ptr<Promise<BiometricsAuthResult>>`.
@@ -136,26 +216,72 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     return Func_void_BiometricsAuthResult_Wrapper(std::move(value));
   }
   
-  // pragma MARK: std::function<void(const std::exception_ptr& /* error */)>
+  // pragma MARK: std::shared_ptr<Promise<BiometricsKey>>
   /**
-   * Specialized version of `std::function<void(const std::exception_ptr&)>`.
+   * Specialized version of `std::shared_ptr<Promise<BiometricsKey>>`.
    */
-  using Func_void_std__exception_ptr = std::function<void(const std::exception_ptr& /* error */)>;
+  using std__shared_ptr_Promise_BiometricsKey__ = std::shared_ptr<Promise<BiometricsKey>>;
+  inline std::shared_ptr<Promise<BiometricsKey>> create_std__shared_ptr_Promise_BiometricsKey__() noexcept {
+    return Promise<BiometricsKey>::create();
+  }
+  inline PromiseHolder<BiometricsKey> wrap_std__shared_ptr_Promise_BiometricsKey__(std::shared_ptr<Promise<BiometricsKey>> promise) noexcept {
+    return PromiseHolder<BiometricsKey>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsKey& /* result */)>
   /**
-   * Wrapper class for a `std::function<void(const std::exception_ptr& / * error * /)>`, this can be used from Swift.
+   * Specialized version of `std::function<void(const BiometricsKey&)>`.
    */
-  class Func_void_std__exception_ptr_Wrapper final {
+  using Func_void_BiometricsKey = std::function<void(const BiometricsKey& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const BiometricsKey& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_BiometricsKey_Wrapper final {
   public:
-    explicit Func_void_std__exception_ptr_Wrapper(std::function<void(const std::exception_ptr& /* error */)>&& func): _function(std::make_unique<std::function<void(const std::exception_ptr& /* error */)>>(std::move(func))) {}
-    inline void call(std::exception_ptr error) const noexcept {
-      _function->operator()(error);
+    explicit Func_void_BiometricsKey_Wrapper(std::function<void(const BiometricsKey& /* result */)>&& func): _function(std::make_unique<std::function<void(const BiometricsKey& /* result */)>>(std::move(func))) {}
+    inline void call(BiometricsKey result) const noexcept {
+      _function->operator()(result);
     }
   private:
-    std::unique_ptr<std::function<void(const std::exception_ptr& /* error */)>> _function;
+    std::unique_ptr<std::function<void(const BiometricsKey& /* result */)>> _function;
   } SWIFT_NONCOPYABLE;
-  Func_void_std__exception_ptr create_Func_void_std__exception_ptr(void* NON_NULL swiftClosureWrapper) noexcept;
-  inline Func_void_std__exception_ptr_Wrapper wrap_Func_void_std__exception_ptr(Func_void_std__exception_ptr value) noexcept {
-    return Func_void_std__exception_ptr_Wrapper(std::move(value));
+  Func_void_BiometricsKey create_Func_void_BiometricsKey(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_BiometricsKey_Wrapper wrap_Func_void_BiometricsKey(Func_void_BiometricsKey value) noexcept {
+    return Func_void_BiometricsKey_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<Promise<BiometricsSignature>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<BiometricsSignature>>`.
+   */
+  using std__shared_ptr_Promise_BiometricsSignature__ = std::shared_ptr<Promise<BiometricsSignature>>;
+  inline std::shared_ptr<Promise<BiometricsSignature>> create_std__shared_ptr_Promise_BiometricsSignature__() noexcept {
+    return Promise<BiometricsSignature>::create();
+  }
+  inline PromiseHolder<BiometricsSignature> wrap_std__shared_ptr_Promise_BiometricsSignature__(std::shared_ptr<Promise<BiometricsSignature>> promise) noexcept {
+    return PromiseHolder<BiometricsSignature>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsSignature& /* result */)>
+  /**
+   * Specialized version of `std::function<void(const BiometricsSignature&)>`.
+   */
+  using Func_void_BiometricsSignature = std::function<void(const BiometricsSignature& /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(const BiometricsSignature& / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_BiometricsSignature_Wrapper final {
+  public:
+    explicit Func_void_BiometricsSignature_Wrapper(std::function<void(const BiometricsSignature& /* result */)>&& func): _function(std::make_unique<std::function<void(const BiometricsSignature& /* result */)>>(std::move(func))) {}
+    inline void call(BiometricsSignature result) const noexcept {
+      _function->operator()(result);
+    }
+  private:
+    std::unique_ptr<std::function<void(const BiometricsSignature& /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_BiometricsSignature create_Func_void_BiometricsSignature(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_BiometricsSignature_Wrapper wrap_Func_void_BiometricsSignature(Func_void_BiometricsSignature value) noexcept {
+    return Func_void_BiometricsSignature_Wrapper(std::move(value));
   }
   
   // pragma MARK: std::shared_ptr<HybridNitroBiometricsSpec>
@@ -170,15 +296,6 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
   using std__weak_ptr_HybridNitroBiometricsSpec_ = std::weak_ptr<HybridNitroBiometricsSpec>;
   inline std__weak_ptr_HybridNitroBiometricsSpec_ weakify_std__shared_ptr_HybridNitroBiometricsSpec_(const std::shared_ptr<HybridNitroBiometricsSpec>& strong) noexcept { return strong; }
   
-  // pragma MARK: Result<bool>
-  using Result_bool_ = Result<bool>;
-  inline Result_bool_ create_Result_bool_(bool value) noexcept {
-    return Result<bool>::withValue(std::move(value));
-  }
-  inline Result_bool_ create_Result_bool_(const std::exception_ptr& error) noexcept {
-    return Result<bool>::withError(error);
-  }
-  
   // pragma MARK: Result<BiometricsAvailability>
   using Result_BiometricsAvailability_ = Result<BiometricsAvailability>;
   inline Result_BiometricsAvailability_ create_Result_BiometricsAvailability_(const BiometricsAvailability& value) noexcept {
@@ -188,6 +305,33 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     return Result<BiometricsAvailability>::withError(error);
   }
   
+  // pragma MARK: Result<std::vector<std::variant<nitro::NullType, BiometryType>>>
+  using Result_std__vector_std__variant_nitro__NullType__BiometryType___ = Result<std::vector<std::variant<nitro::NullType, BiometryType>>>;
+  inline Result_std__vector_std__variant_nitro__NullType__BiometryType___ create_Result_std__vector_std__variant_nitro__NullType__BiometryType___(const std::vector<std::variant<nitro::NullType, BiometryType>>& value) noexcept {
+    return Result<std::vector<std::variant<nitro::NullType, BiometryType>>>::withValue(value);
+  }
+  inline Result_std__vector_std__variant_nitro__NullType__BiometryType___ create_Result_std__vector_std__variant_nitro__NullType__BiometryType___(const std::exception_ptr& error) noexcept {
+    return Result<std::vector<std::variant<nitro::NullType, BiometryType>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<bool>
+  using Result_bool_ = Result<bool>;
+  inline Result_bool_ create_Result_bool_(bool value) noexcept {
+    return Result<bool>::withValue(std::move(value));
+  }
+  inline Result_bool_ create_Result_bool_(const std::exception_ptr& error) noexcept {
+    return Result<bool>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<BiometricsPermissionResponse>>>
+  using Result_std__shared_ptr_Promise_BiometricsPermissionResponse___ = Result<std::shared_ptr<Promise<BiometricsPermissionResponse>>>;
+  inline Result_std__shared_ptr_Promise_BiometricsPermissionResponse___ create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(const std::shared_ptr<Promise<BiometricsPermissionResponse>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsPermissionResponse>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_BiometricsPermissionResponse___ create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsPermissionResponse>>>::withError(error);
+  }
+  
   // pragma MARK: Result<std::shared_ptr<Promise<BiometricsAuthResult>>>
   using Result_std__shared_ptr_Promise_BiometricsAuthResult___ = Result<std::shared_ptr<Promise<BiometricsAuthResult>>>;
   inline Result_std__shared_ptr_Promise_BiometricsAuthResult___ create_Result_std__shared_ptr_Promise_BiometricsAuthResult___(const std::shared_ptr<Promise<BiometricsAuthResult>>& value) noexcept {
@@ -195,6 +339,33 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
   }
   inline Result_std__shared_ptr_Promise_BiometricsAuthResult___ create_Result_std__shared_ptr_Promise_BiometricsAuthResult___(const std::exception_ptr& error) noexcept {
     return Result<std::shared_ptr<Promise<BiometricsAuthResult>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<BiometricsKey>>>
+  using Result_std__shared_ptr_Promise_BiometricsKey___ = Result<std::shared_ptr<Promise<BiometricsKey>>>;
+  inline Result_std__shared_ptr_Promise_BiometricsKey___ create_Result_std__shared_ptr_Promise_BiometricsKey___(const std::shared_ptr<Promise<BiometricsKey>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsKey>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_BiometricsKey___ create_Result_std__shared_ptr_Promise_BiometricsKey___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsKey>>>::withError(error);
+  }
+  
+  // pragma MARK: Result<void>
+  using Result_void_ = Result<void>;
+  inline Result_void_ create_Result_void_() noexcept {
+    return Result<void>::withValue();
+  }
+  inline Result_void_ create_Result_void_(const std::exception_ptr& error) noexcept {
+    return Result<void>::withError(error);
+  }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<BiometricsSignature>>>
+  using Result_std__shared_ptr_Promise_BiometricsSignature___ = Result<std::shared_ptr<Promise<BiometricsSignature>>>;
+  inline Result_std__shared_ptr_Promise_BiometricsSignature___ create_Result_std__shared_ptr_Promise_BiometricsSignature___(const std::shared_ptr<Promise<BiometricsSignature>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsSignature>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_BiometricsSignature___ create_Result_std__shared_ptr_Promise_BiometricsSignature___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<BiometricsSignature>>>::withError(error);
   }
 
 } // namespace margelo::nitro::nitrobiometrics::bridge::swift

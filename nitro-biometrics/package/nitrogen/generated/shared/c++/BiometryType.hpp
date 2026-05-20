@@ -29,6 +29,7 @@ namespace margelo::nitro::nitrobiometrics {
     FINGERPRINT      SWIFT_NAME(fingerprint) = 2,
     FACE      SWIFT_NAME(face) = 3,
     IRIS      SWIFT_NAME(iris) = 4,
+    NONE      SWIFT_NAME(none) = 5,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::nitrobiometrics
@@ -58,7 +59,7 @@ namespace margelo::nitro {
         return false;
       }
       // Check if we are within the bounds of the enum.
-      return integer >= 0 && integer <= 4;
+      return integer >= 0 && integer <= 5;
     }
   };
 
