@@ -11,6 +11,8 @@
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `BiometricsError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
 // Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
 // Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
@@ -21,6 +23,10 @@ namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
 // Forward declaration of `BiometricsSignature` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
+// Forward declaration of `AuthenticateOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
+// Forward declaration of `CreateKeysOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
 
 #include "BiometricsAvailability.hpp"
 #include "JBiometricsAvailability.hpp"
@@ -28,10 +34,11 @@ namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 #include "BiometryType.hpp"
 #include <variant>
 #include <optional>
-#include "JSupportedBiometryType.hpp"
+#include "JVariant_NullType_BiometryType.hpp"
 #include <NitroModules/JNull.hpp>
 #include "JBiometryType.hpp"
-#include <string>
+#include "BiometricsError.hpp"
+#include "JBiometricsError.hpp"
 #include <vector>
 #include "BiometricsPermissionResponse.hpp"
 #include <NitroModules/Promise.hpp>
@@ -43,8 +50,14 @@ namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 #include "JBiometricsAuthResult.hpp"
 #include "BiometricsKey.hpp"
 #include "JBiometricsKey.hpp"
+#include <string>
+#include "JVariant_NullType_BiometricsKey.hpp"
 #include "BiometricsSignature.hpp"
 #include "JBiometricsSignature.hpp"
+#include "AuthenticateOptions.hpp"
+#include "JAuthenticateOptions.hpp"
+#include "CreateKeysOptions.hpp"
+#include "JCreateKeysOptions.hpp"
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -84,12 +97,12 @@ namespace margelo::nitro::nitrobiometrics {
     auto __result = method(_javaPart);
     return __result->toCpp();
   }
-  std::vector<std::variant<nitro::NullType, BiometryType>> JHybridNitroBiometricsSpec::supportedAuthenticationTypes() {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<jni::JArrayClass<JSupportedBiometryType>>()>("supportedAuthenticationTypes");
+  std::vector<BiometryType> JHybridNitroBiometricsSpec::supportedAuthenticationTypes() {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<jni::JArrayClass<JBiometryType>>()>("supportedAuthenticationTypes");
     auto __result = method(_javaPart);
     return [&](auto&& __input) {
       size_t __size = __input->size();
-      std::vector<std::variant<nitro::NullType, BiometryType>> __vector;
+      std::vector<BiometryType> __vector;
       __vector.reserve(__size);
       for (size_t __i = 0; __i < __size; __i++) {
         auto __element = __input->getElement(__i);
@@ -135,9 +148,9 @@ namespace margelo::nitro::nitrobiometrics {
       return __promise;
     }();
   }
-  std::shared_ptr<Promise<BiometricsAuthResult>> JHybridNitroBiometricsSpec::authenticate(const std::string& reason) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* reason */)>("authenticate");
-    auto __result = method(_javaPart, jni::make_jstring(reason));
+  std::shared_ptr<Promise<BiometricsAuthResult>> JHybridNitroBiometricsSpec::authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* reason */, jni::alias_ref<JAuthenticateOptions> /* options */)>("authenticate");
+    auto __result = method(_javaPart, jni::make_jstring(reason), options.has_value() ? JAuthenticateOptions::fromCpp(options.value()) : nullptr);
     return [&]() {
       auto __promise = Promise<BiometricsAuthResult>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {
@@ -151,9 +164,9 @@ namespace margelo::nitro::nitrobiometrics {
       return __promise;
     }();
   }
-  std::shared_ptr<Promise<BiometricsKey>> JHybridNitroBiometricsSpec::createKeys() {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>()>("createKeys");
-    auto __result = method(_javaPart);
+  std::shared_ptr<Promise<BiometricsKey>> JHybridNitroBiometricsSpec::createKeys(const std::optional<CreateKeysOptions>& options) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<JCreateKeysOptions> /* options */)>("createKeys");
+    auto __result = method(_javaPart, options.has_value() ? JCreateKeysOptions::fromCpp(options.value()) : nullptr);
     return [&]() {
       auto __promise = Promise<BiometricsKey>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {
@@ -172,13 +185,13 @@ namespace margelo::nitro::nitrobiometrics {
     auto __result = method(_javaPart);
     return static_cast<bool>(__result);
   }
-  std::shared_ptr<Promise<BiometricsKey>> JHybridNitroBiometricsSpec::getPublicKey() {
+  std::shared_ptr<Promise<std::variant<nitro::NullType, BiometricsKey>>> JHybridNitroBiometricsSpec::getPublicKey() {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>()>("getPublicKey");
     auto __result = method(_javaPart);
     return [&]() {
-      auto __promise = Promise<BiometricsKey>::create();
+      auto __promise = Promise<std::variant<nitro::NullType, BiometricsKey>>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {
-        auto __result = jni::static_ref_cast<JBiometricsKey>(__boxedResult);
+        auto __result = jni::static_ref_cast<JVariant_NullType_BiometricsKey>(__boxedResult);
         __promise->resolve(__result->toCpp());
       });
       __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
@@ -192,9 +205,9 @@ namespace margelo::nitro::nitrobiometrics {
     static const auto method = _javaPart->javaClassStatic()->getMethod<void()>("deleteKeys");
     method(_javaPart);
   }
-  std::shared_ptr<Promise<BiometricsSignature>> JHybridNitroBiometricsSpec::signPayload(const std::string& payload) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* payload */)>("signPayload");
-    auto __result = method(_javaPart, jni::make_jstring(payload));
+  std::shared_ptr<Promise<BiometricsSignature>> JHybridNitroBiometricsSpec::signPayload(const std::string& payload, const std::optional<AuthenticateOptions>& options) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* payload */, jni::alias_ref<JAuthenticateOptions> /* options */)>("signPayload");
+    auto __result = method(_javaPart, jni::make_jstring(payload), options.has_value() ? JAuthenticateOptions::fromCpp(options.value()) : nullptr);
     return [&]() {
       auto __promise = Promise<BiometricsSignature>::create();
       __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {

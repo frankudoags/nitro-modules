@@ -16,14 +16,20 @@ namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `BiometricsError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
 // Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
 // Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatus; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `AuthenticateOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 // Forward declaration of `BiometricsKey` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
+// Forward declaration of `CreateKeysOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
 // Forward declaration of `BiometricsSignature` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
@@ -32,13 +38,16 @@ namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 #include "BiometryType.hpp"
 #include <variant>
 #include <optional>
-#include <string>
+#include "BiometricsError.hpp"
 #include <vector>
 #include "BiometricsPermissionResponse.hpp"
 #include <NitroModules/Promise.hpp>
 #include "BiometricsPermissionStatus.hpp"
+#include <string>
 #include "BiometricsAuthResult.hpp"
+#include "AuthenticateOptions.hpp"
 #include "BiometricsKey.hpp"
+#include "CreateKeysOptions.hpp"
 #include "BiometricsSignature.hpp"
 
 #include "NitroBiometrics-Swift-Cxx-Umbrella.hpp"
@@ -99,7 +108,7 @@ namespace margelo::nitro::nitrobiometrics {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::vector<std::variant<nitro::NullType, BiometryType>> supportedAuthenticationTypes() override {
+    inline std::vector<BiometryType> supportedAuthenticationTypes() override {
       auto __result = _swiftPart.supportedAuthenticationTypes();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
@@ -131,16 +140,16 @@ namespace margelo::nitro::nitrobiometrics {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) override {
-      auto __result = _swiftPart.authenticate(reason);
+    inline std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) override {
+      auto __result = _swiftPart.authenticate(reason, options);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<BiometricsKey>> createKeys() override {
-      auto __result = _swiftPart.createKeys();
+    inline std::shared_ptr<Promise<BiometricsKey>> createKeys(const std::optional<CreateKeysOptions>& options) override {
+      auto __result = _swiftPart.createKeys(options);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
@@ -155,7 +164,7 @@ namespace margelo::nitro::nitrobiometrics {
       auto __value = std::move(__result.value());
       return __value;
     }
-    inline std::shared_ptr<Promise<BiometricsKey>> getPublicKey() override {
+    inline std::shared_ptr<Promise<std::variant<nitro::NullType, BiometricsKey>>> getPublicKey() override {
       auto __result = _swiftPart.getPublicKey();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
@@ -169,8 +178,8 @@ namespace margelo::nitro::nitrobiometrics {
         std::rethrow_exception(__result.error());
       }
     }
-    inline std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) override {
-      auto __result = _swiftPart.signPayload(payload);
+    inline std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload, const std::optional<AuthenticateOptions>& options) override {
+      auto __result = _swiftPart.signPayload(payload, options);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

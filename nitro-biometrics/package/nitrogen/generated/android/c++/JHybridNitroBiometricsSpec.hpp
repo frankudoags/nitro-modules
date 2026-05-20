@@ -55,16 +55,16 @@ namespace margelo::nitro::nitrobiometrics {
   public:
     // Methods
     BiometricsAvailability isAvailable() override;
-    std::vector<std::variant<nitro::NullType, BiometryType>> supportedAuthenticationTypes() override;
+    std::vector<BiometryType> supportedAuthenticationTypes() override;
     bool isEnrolled() override;
     std::shared_ptr<Promise<BiometricsPermissionResponse>> getPermissionsAsync() override;
     std::shared_ptr<Promise<BiometricsPermissionResponse>> requestPermissionsAsync(const std::string& reason) override;
-    std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason) override;
-    std::shared_ptr<Promise<BiometricsKey>> createKeys() override;
+    std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) override;
+    std::shared_ptr<Promise<BiometricsKey>> createKeys(const std::optional<CreateKeysOptions>& options) override;
     bool keysExist() override;
-    std::shared_ptr<Promise<BiometricsKey>> getPublicKey() override;
+    std::shared_ptr<Promise<std::variant<nitro::NullType, BiometricsKey>>> getPublicKey() override;
     void deleteKeys() override;
-    std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload) override;
+    std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload, const std::optional<AuthenticateOptions>& options) override;
 
   private:
     jni::global_ref<JHybridNitroBiometricsSpec::JavaPart> _javaPart;

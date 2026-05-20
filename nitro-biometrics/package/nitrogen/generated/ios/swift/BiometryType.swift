@@ -27,8 +27,6 @@ public extension BiometryType {
         self = .face
       case "IRIS":
         self = .iris
-      case "NONE":
-        self = .none
       default:
         return nil
     }
@@ -49,8 +47,6 @@ public extension BiometryType {
         return "FACE"
       case .iris:
         return "IRIS"
-      case .none:
-        return "NONE"
     }
   }
 }

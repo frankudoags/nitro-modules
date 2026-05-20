@@ -36,7 +36,8 @@ target_sources(
   ../nitrogen/generated/shared/c++/HybridNitroBiometricsSpec.cpp
   # Android-specific Nitrogen C++ sources
   ../nitrogen/generated/android/c++/JHybridNitroBiometricsSpec.cpp
-  ../nitrogen/generated/android/c++/JSupportedBiometryType.cpp
+  ../nitrogen/generated/android/c++/JVariant_NullType_BiometryType.cpp
+  ../nitrogen/generated/android/c++/JVariant_NullType_BiometricsKey.cpp
 )
 
 # From node_modules/react-native/ReactAndroid/cmake-utils/folly-flags.cmake

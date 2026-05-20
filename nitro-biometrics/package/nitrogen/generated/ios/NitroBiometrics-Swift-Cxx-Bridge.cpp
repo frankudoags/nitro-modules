@@ -46,6 +46,14 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     };
   }
   
+  // pragma MARK: std::function<void(const std::variant<nitro::NullType, BiometricsKey>& /* result */)>
+  Func_void_std__variant_nitro__NullType__BiometricsKey_ create_Func_void_std__variant_nitro__NullType__BiometricsKey_(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_std__variant_nitro__NullType__BiometricsKey_::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const std::variant<nitro::NullType, BiometricsKey>& result) mutable -> void {
+      swiftClosure.call(result);
+    };
+  }
+  
   // pragma MARK: std::function<void(const BiometricsSignature& /* result */)>
   Func_void_BiometricsSignature create_Func_void_BiometricsSignature(void* NON_NULL swiftClosureWrapper) noexcept {
     auto swiftClosure = NitroBiometrics::Func_void_BiometricsSignature::fromUnsafe(swiftClosureWrapper);

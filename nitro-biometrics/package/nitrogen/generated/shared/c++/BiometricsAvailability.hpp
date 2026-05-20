@@ -30,12 +30,14 @@
 
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `BiometricsError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
 
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
 #include <variant>
 #include <optional>
-#include <string>
+#include "BiometricsError.hpp"
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -46,11 +48,11 @@ namespace margelo::nitro::nitrobiometrics {
   public:
     bool isAvailable     SWIFT_PRIVATE;
     std::optional<std::variant<nitro::NullType, BiometryType>> biometryType     SWIFT_PRIVATE;
-    std::optional<std::string> error     SWIFT_PRIVATE;
+    std::optional<BiometricsError> error     SWIFT_PRIVATE;
 
   public:
     BiometricsAvailability() = default;
-    explicit BiometricsAvailability(bool isAvailable, std::optional<std::variant<nitro::NullType, BiometryType>> biometryType, std::optional<std::string> error): isAvailable(isAvailable), biometryType(biometryType), error(error) {}
+    explicit BiometricsAvailability(bool isAvailable, std::optional<std::variant<nitro::NullType, BiometryType>> biometryType, std::optional<BiometricsError> error): isAvailable(isAvailable), biometryType(biometryType), error(error) {}
 
   public:
     friend bool operator==(const BiometricsAvailability& lhs, const BiometricsAvailability& rhs) = default;
@@ -68,14 +70,14 @@ namespace margelo::nitro {
       return margelo::nitro::nitrobiometrics::BiometricsAvailability(
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isAvailable"))),
         JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "biometryType"))),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))
+        JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::nitrobiometrics::BiometricsAvailability& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "isAvailable"), JSIConverter<bool>::toJSI(runtime, arg.isAvailable));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "biometryType"), JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::toJSI(runtime, arg.biometryType));
-      obj.setProperty(runtime, PropNameIDCache::get(runtime, "error"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.error));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "error"), JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::toJSI(runtime, arg.error));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -88,7 +90,7 @@ namespace margelo::nitro {
       }
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isAvailable")))) return false;
       if (!JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "biometryType")))) return false;
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))) return false;
       return true;
     }
   };

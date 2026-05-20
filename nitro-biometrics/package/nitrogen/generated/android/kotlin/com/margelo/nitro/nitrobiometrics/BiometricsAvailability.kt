@@ -23,10 +23,10 @@ data class BiometricsAvailability(
   val isAvailable: Boolean,
   @DoNotStrip
   @Keep
-  val biometryType: SupportedBiometryType?,
+  val biometryType: Variant_NullType_BiometryType?,
   @DoNotStrip
   @Keep
-  val error: String?
+  val error: BiometricsError?
 ) {
   /* primary constructor */
 
@@ -54,7 +54,7 @@ data class BiometricsAvailability(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(isAvailable: Boolean, biometryType: SupportedBiometryType?, error: String?): BiometricsAvailability {
+    private fun fromCpp(isAvailable: Boolean, biometryType: Variant_NullType_BiometryType?, error: BiometricsError?): BiometricsAvailability {
       return BiometricsAvailability(isAvailable, biometryType, error)
     }
   }

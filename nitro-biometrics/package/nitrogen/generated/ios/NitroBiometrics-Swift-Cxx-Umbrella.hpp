@@ -8,10 +8,14 @@
 #pragma once
 
 // Forward declarations of C++ defined types
+// Forward declaration of `AuthenticateOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
+// Forward declaration of `BiometricsError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
 // Forward declaration of `BiometricsKey` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
 // Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
@@ -22,17 +26,22 @@ namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatu
 namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
+// Forward declaration of `CreateKeysOptions` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
 // Forward declaration of `HybridNitroBiometricsSpec` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 
 // Include C++ defined types
+#include "AuthenticateOptions.hpp"
 #include "BiometricsAuthResult.hpp"
 #include "BiometricsAvailability.hpp"
+#include "BiometricsError.hpp"
 #include "BiometricsKey.hpp"
 #include "BiometricsPermissionResponse.hpp"
 #include "BiometricsPermissionStatus.hpp"
 #include "BiometricsSignature.hpp"
 #include "BiometryType.hpp"
+#include "CreateKeysOptions.hpp"
 #include "HybridNitroBiometricsSpec.hpp"
 #include <NitroModules/Null.hpp>
 #include <NitroModules/Promise.hpp>

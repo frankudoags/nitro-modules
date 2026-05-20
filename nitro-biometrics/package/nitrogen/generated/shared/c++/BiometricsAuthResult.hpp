@@ -28,9 +28,10 @@
 #error NitroModules cannot be found! Are you sure you installed NitroModules properly?
 #endif
 
+// Forward declaration of `BiometricsError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
 
-
-#include <string>
+#include "BiometricsError.hpp"
 #include <optional>
 
 namespace margelo::nitro::nitrobiometrics {
@@ -41,11 +42,11 @@ namespace margelo::nitro::nitrobiometrics {
   struct BiometricsAuthResult final {
   public:
     bool success     SWIFT_PRIVATE;
-    std::optional<std::string> error     SWIFT_PRIVATE;
+    std::optional<BiometricsError> error     SWIFT_PRIVATE;
 
   public:
     BiometricsAuthResult() = default;
-    explicit BiometricsAuthResult(bool success, std::optional<std::string> error): success(success), error(error) {}
+    explicit BiometricsAuthResult(bool success, std::optional<BiometricsError> error): success(success), error(error) {}
 
   public:
     friend bool operator==(const BiometricsAuthResult& lhs, const BiometricsAuthResult& rhs) = default;
@@ -62,13 +63,13 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::nitrobiometrics::BiometricsAuthResult(
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "success"))),
-        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))
+        JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::nitrobiometrics::BiometricsAuthResult& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "success"), JSIConverter<bool>::toJSI(runtime, arg.success));
-      obj.setProperty(runtime, PropNameIDCache::get(runtime, "error"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.error));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "error"), JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::toJSI(runtime, arg.error));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -80,7 +81,7 @@ namespace margelo::nitro {
         return false;
       }
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "success")))) return false;
-      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))) return false;
+      if (!JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsError>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "error")))) return false;
       return true;
     }
   };

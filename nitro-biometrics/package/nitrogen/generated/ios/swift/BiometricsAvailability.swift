@@ -18,7 +18,7 @@ public extension BiometricsAvailability {
   /**
    * Create a new instance of `BiometricsAvailability`.
    */
-  init(isAvailable: Bool, biometryType: SupportedBiometryType?, error: String?) {
+  init(isAvailable: Bool, biometryType: Variant_NullType_BiometryType?, error: BiometricsError?) {
     self.init(isAvailable, { () -> bridge.std__optional_std__variant_nitro__NullType__BiometryType__ in
       if let __unwrappedValue = biometryType {
         return bridge.create_std__optional_std__variant_nitro__NullType__BiometryType__({ () -> bridge.std__variant_nitro__NullType__BiometryType_ in
@@ -32,9 +32,9 @@ public extension BiometricsAvailability {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_std__string_ in
+    }(), { () -> bridge.std__optional_BiometricsError_ in
       if let __unwrappedValue = error {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        return bridge.create_std__optional_BiometricsError_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -47,11 +47,11 @@ public extension BiometricsAvailability {
   }
   
   @inline(__always)
-  var biometryType: SupportedBiometryType? {
-    return { () -> SupportedBiometryType? in
+  var biometryType: Variant_NullType_BiometryType? {
+    return { () -> Variant_NullType_BiometryType? in
       if bridge.has_value_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType) {
         let __unwrapped = bridge.get_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType)
-        return { () -> SupportedBiometryType in
+        return { () -> Variant_NullType_BiometryType in
           let __variant = bridge.std__variant_nitro__NullType__BiometryType_(__unwrapped)
           switch __variant.index() {
             case 0:
@@ -71,14 +71,7 @@ public extension BiometricsAvailability {
   }
   
   @inline(__always)
-  var error: String? {
-    return { () -> String? in
-      if bridge.has_value_std__optional_std__string_(self.__error) {
-        let __unwrapped = bridge.get_std__optional_std__string_(self.__error)
-        return String(__unwrapped)
-      } else {
-        return nil
-      }
-    }()
+  var error: BiometricsError? {
+    return self.__error.value
   }
 }

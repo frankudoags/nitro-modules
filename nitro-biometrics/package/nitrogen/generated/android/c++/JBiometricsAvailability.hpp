@@ -10,13 +10,14 @@
 #include <fbjni/fbjni.h>
 #include "BiometricsAvailability.hpp"
 
+#include "BiometricsError.hpp"
 #include "BiometryType.hpp"
+#include "JBiometricsError.hpp"
 #include "JBiometryType.hpp"
-#include "JSupportedBiometryType.hpp"
+#include "JVariant_NullType_BiometryType.hpp"
 #include <NitroModules/JNull.hpp>
 #include <NitroModules/Null.hpp>
 #include <optional>
-#include <string>
 #include <variant>
 
 namespace margelo::nitro::nitrobiometrics {
@@ -40,14 +41,14 @@ namespace margelo::nitro::nitrobiometrics {
       static const auto clazz = javaClassStatic();
       static const auto fieldIsAvailable = clazz->getField<jboolean>("isAvailable");
       jboolean isAvailable = this->getFieldValue(fieldIsAvailable);
-      static const auto fieldBiometryType = clazz->getField<JSupportedBiometryType>("biometryType");
-      jni::local_ref<JSupportedBiometryType> biometryType = this->getFieldValue(fieldBiometryType);
-      static const auto fieldError = clazz->getField<jni::JString>("error");
-      jni::local_ref<jni::JString> error = this->getFieldValue(fieldError);
+      static const auto fieldBiometryType = clazz->getField<JVariant_NullType_BiometryType>("biometryType");
+      jni::local_ref<JVariant_NullType_BiometryType> biometryType = this->getFieldValue(fieldBiometryType);
+      static const auto fieldError = clazz->getField<JBiometricsError>("error");
+      jni::local_ref<JBiometricsError> error = this->getFieldValue(fieldError);
       return BiometricsAvailability(
         static_cast<bool>(isAvailable),
         biometryType != nullptr ? std::make_optional(biometryType->toCpp()) : std::nullopt,
-        error != nullptr ? std::make_optional(error->toStdString()) : std::nullopt
+        error != nullptr ? std::make_optional(error->toCpp()) : std::nullopt
       );
     }
 
@@ -57,14 +58,14 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JBiometricsAvailability::javaobject> fromCpp(const BiometricsAvailability& value) {
-      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JSupportedBiometryType>, jni::alias_ref<jni::JString>);
+      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JVariant_NullType_BiometryType>, jni::alias_ref<JBiometricsError>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         value.isAvailable,
-        value.biometryType.has_value() ? JSupportedBiometryType::fromCpp(value.biometryType.value()) : nullptr,
-        value.error.has_value() ? jni::make_jstring(value.error.value()) : nullptr
+        value.biometryType.has_value() ? JVariant_NullType_BiometryType::fromCpp(value.biometryType.value()) : nullptr,
+        value.error.has_value() ? JBiometricsError::fromCpp(value.error.value()) : nullptr
       );
     }
   };

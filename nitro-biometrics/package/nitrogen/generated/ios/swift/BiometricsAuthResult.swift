@@ -18,10 +18,10 @@ public extension BiometricsAuthResult {
   /**
    * Create a new instance of `BiometricsAuthResult`.
    */
-  init(success: Bool, error: String?) {
-    self.init(success, { () -> bridge.std__optional_std__string_ in
+  init(success: Bool, error: BiometricsError?) {
+    self.init(success, { () -> bridge.std__optional_BiometricsError_ in
       if let __unwrappedValue = error {
-        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+        return bridge.create_std__optional_BiometricsError_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -34,14 +34,7 @@ public extension BiometricsAuthResult {
   }
   
   @inline(__always)
-  var error: String? {
-    return { () -> String? in
-      if bridge.has_value_std__optional_std__string_(self.__error) {
-        let __unwrapped = bridge.get_std__optional_std__string_(self.__error)
-        return String(__unwrapped)
-      } else {
-        return nil
-      }
-    }()
+  var error: BiometricsError? {
+    return self.__error.value
   }
 }
