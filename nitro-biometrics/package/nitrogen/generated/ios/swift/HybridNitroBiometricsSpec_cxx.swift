@@ -125,82 +125,14 @@ open class HybridNitroBiometricsSpec_cxx {
 
   // Methods
   @inline(__always)
-  public final func isAvailable() -> bridge.Result_BiometricsAvailability_ {
+  public final func getAvailability() -> bridge.Result_BiometricsAvailability_ {
     do {
-      let __result = try self.__implementation.isAvailable()
+      let __result = try self.__implementation.getAvailability()
       let __resultCpp = __result
       return bridge.create_Result_BiometricsAvailability_(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_BiometricsAvailability_(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func supportedAuthenticationTypes() -> bridge.Result_std__vector_BiometryType__ {
-    do {
-      let __result = try self.__implementation.supportedAuthenticationTypes()
-      let __resultCpp = { () -> bridge.std__vector_BiometryType_ in
-        var __vector = bridge.create_std__vector_BiometryType_(__result.count)
-        for __item in __result {
-          __vector.push_back(__item)
-        }
-        return __vector
-      }()
-      return bridge.create_Result_std__vector_BiometryType__(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__vector_BiometryType__(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func isEnrolled() -> bridge.Result_bool_ {
-    do {
-      let __result = try self.__implementation.isEnrolled()
-      let __resultCpp = __result
-      return bridge.create_Result_bool_(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_bool_(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func getPermissionsAsync() -> bridge.Result_std__shared_ptr_Promise_BiometricsPermissionResponse___ {
-    do {
-      let __result = try self.__implementation.getPermissionsAsync()
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_BiometricsPermissionResponse__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_BiometricsPermissionResponse__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_BiometricsPermissionResponse__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(__result) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func requestPermissionsAsync(reason: std.string) -> bridge.Result_std__shared_ptr_Promise_BiometricsPermissionResponse___ {
-    do {
-      let __result = try self.__implementation.requestPermissionsAsync(reason: String(reason))
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_BiometricsPermissionResponse__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_BiometricsPermissionResponse__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_BiometricsPermissionResponse__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(__result) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsPermissionResponse___(__exceptionPtr)
     }
   }
   
@@ -220,93 +152,6 @@ open class HybridNitroBiometricsSpec_cxx {
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
       return bridge.create_Result_std__shared_ptr_Promise_BiometricsAuthResult___(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func createKeys(options: bridge.std__optional_CreateKeysOptions_) -> bridge.Result_std__shared_ptr_Promise_BiometricsKey___ {
-    do {
-      let __result = try self.__implementation.createKeys(options: options.value)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_BiometricsKey__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_BiometricsKey__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_BiometricsKey__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(__result) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsKey___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsKey___(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func keysExist() -> bridge.Result_bool_ {
-    do {
-      let __result = try self.__implementation.keysExist()
-      let __resultCpp = __result
-      return bridge.create_Result_bool_(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_bool_(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func getPublicKey() -> bridge.Result_std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey____ {
-    do {
-      let __result = try self.__implementation.getPublicKey()
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey___ in
-        let __promise = bridge.create_std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey___()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey___(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve({ () -> bridge.std__variant_nitro__NullType__BiometricsKey_ in
-              switch __result {
-                case .first(let __value):
-                  return bridge.create_std__variant_nitro__NullType__BiometricsKey_(margelo.nitro.NullType.null)
-                case .second(let __value):
-                  return bridge.create_std__variant_nitro__NullType__BiometricsKey_(__value)
-              }
-            }().variant) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey____(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_std__variant_nitro__NullType__BiometricsKey____(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func deleteKeys() -> bridge.Result_void_ {
-    do {
-      try self.__implementation.deleteKeys()
-      return bridge.create_Result_void_()
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_void_(__exceptionPtr)
-    }
-  }
-  
-  @inline(__always)
-  public final func signPayload(payload: std.string, options: bridge.std__optional_AuthenticateOptions_) -> bridge.Result_std__shared_ptr_Promise_BiometricsSignature___ {
-    do {
-      let __result = try self.__implementation.signPayload(payload: String(payload), options: options.value)
-      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_BiometricsSignature__ in
-        let __promise = bridge.create_std__shared_ptr_Promise_BiometricsSignature__()
-        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_BiometricsSignature__(__promise)
-        __result
-          .then({ __result in __promiseHolder.resolve(__result) })
-          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
-        return __promise
-      }()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsSignature___(__resultCpp)
-    } catch (let __error) {
-      let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_std__shared_ptr_Promise_BiometricsSignature___(__exceptionPtr)
     }
   }
 }

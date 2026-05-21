@@ -10,38 +10,26 @@
 // Forward declarations of C++ defined types
 // Forward declaration of `AuthenticateOptions` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
+// Forward declaration of `BiometricsAuthError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsAuthError; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
-// Forward declaration of `BiometricsError` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
-// Forward declaration of `BiometricsKey` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
-// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
-// Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatus; }
-// Forward declaration of `BiometricsSignature` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
+// Forward declaration of `BiometricsUnavailableReason` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsUnavailableReason; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
-// Forward declaration of `CreateKeysOptions` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
 // Forward declaration of `HybridNitroBiometricsSpec` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 
 // Include C++ defined types
 #include "AuthenticateOptions.hpp"
+#include "BiometricsAuthError.hpp"
 #include "BiometricsAuthResult.hpp"
 #include "BiometricsAvailability.hpp"
-#include "BiometricsError.hpp"
-#include "BiometricsKey.hpp"
-#include "BiometricsPermissionResponse.hpp"
-#include "BiometricsPermissionStatus.hpp"
-#include "BiometricsSignature.hpp"
+#include "BiometricsUnavailableReason.hpp"
 #include "BiometryType.hpp"
-#include "CreateKeysOptions.hpp"
 #include "HybridNitroBiometricsSpec.hpp"
 #include <NitroModules/Null.hpp>
 #include <NitroModules/Promise.hpp>
@@ -51,7 +39,6 @@ namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 #include <optional>
 #include <string>
 #include <variant>
-#include <vector>
 
 // C++ helpers for Swift
 #include "NitroBiometrics-Swift-Cxx-Bridge.hpp"

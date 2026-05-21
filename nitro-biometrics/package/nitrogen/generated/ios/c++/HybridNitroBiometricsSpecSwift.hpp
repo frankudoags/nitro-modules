@@ -16,39 +16,26 @@ namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
 // Forward declaration of `BiometryType` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
-// Forward declaration of `BiometricsError` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { enum class BiometricsError; }
-// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
-// Forward declaration of `BiometricsPermissionStatus` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { enum class BiometricsPermissionStatus; }
+// Forward declaration of `BiometricsUnavailableReason` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsUnavailableReason; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
+// Forward declaration of `BiometricsAuthError` to properly resolve imports.
+namespace margelo::nitro::nitrobiometrics { enum class BiometricsAuthError; }
 // Forward declaration of `AuthenticateOptions` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
-// Forward declaration of `BiometricsKey` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
-// Forward declaration of `CreateKeysOptions` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
-// Forward declaration of `BiometricsSignature` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
 #include "BiometricsAvailability.hpp"
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
 #include <variant>
 #include <optional>
-#include "BiometricsError.hpp"
-#include <vector>
-#include "BiometricsPermissionResponse.hpp"
-#include <NitroModules/Promise.hpp>
-#include "BiometricsPermissionStatus.hpp"
-#include <string>
+#include "BiometricsUnavailableReason.hpp"
 #include "BiometricsAuthResult.hpp"
+#include <NitroModules/Promise.hpp>
+#include "BiometricsAuthError.hpp"
+#include <string>
 #include "AuthenticateOptions.hpp"
-#include "BiometricsKey.hpp"
-#include "CreateKeysOptions.hpp"
-#include "BiometricsSignature.hpp"
 
 #include "NitroBiometrics-Swift-Cxx-Umbrella.hpp"
 
@@ -100,40 +87,8 @@ namespace margelo::nitro::nitrobiometrics {
 
   public:
     // Methods
-    inline BiometricsAvailability isAvailable() override {
-      auto __result = _swiftPart.isAvailable();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::vector<BiometryType> supportedAuthenticationTypes() override {
-      auto __result = _swiftPart.supportedAuthenticationTypes();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline bool isEnrolled() override {
-      auto __result = _swiftPart.isEnrolled();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<BiometricsPermissionResponse>> getPermissionsAsync() override {
-      auto __result = _swiftPart.getPermissionsAsync();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<BiometricsPermissionResponse>> requestPermissionsAsync(const std::string& reason) override {
-      auto __result = _swiftPart.requestPermissionsAsync(reason);
+    inline BiometricsAvailability getAvailability() override {
+      auto __result = _swiftPart.getAvailability();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }
@@ -142,44 +97,6 @@ namespace margelo::nitro::nitrobiometrics {
     }
     inline std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) override {
       auto __result = _swiftPart.authenticate(reason, options);
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<BiometricsKey>> createKeys(const std::optional<CreateKeysOptions>& options) override {
-      auto __result = _swiftPart.createKeys(options);
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline bool keysExist() override {
-      auto __result = _swiftPart.keysExist();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline std::shared_ptr<Promise<std::variant<nitro::NullType, BiometricsKey>>> getPublicKey() override {
-      auto __result = _swiftPart.getPublicKey();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-      auto __value = std::move(__result.value());
-      return __value;
-    }
-    inline void deleteKeys() override {
-      auto __result = _swiftPart.deleteKeys();
-      if (__result.hasError()) [[unlikely]] {
-        std::rethrow_exception(__result.error());
-      }
-    }
-    inline std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload, const std::optional<AuthenticateOptions>& options) override {
-      auto __result = _swiftPart.signPayload(payload, options);
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
       }

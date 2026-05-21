@@ -11,6 +11,7 @@
 #include "AuthenticateOptions.hpp"
 
 #include <optional>
+#include <string>
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -31,10 +32,22 @@ namespace margelo::nitro::nitrobiometrics {
     [[nodiscard]]
     AuthenticateOptions toCpp() const {
       static const auto clazz = javaClassStatic();
-      static const auto fieldAllowDeviceCredentials = clazz->getField<jni::JBoolean>("allowDeviceCredentials");
-      jni::local_ref<jni::JBoolean> allowDeviceCredentials = this->getFieldValue(fieldAllowDeviceCredentials);
+      static const auto fieldFallbackLabel = clazz->getField<jni::JString>("fallbackLabel");
+      jni::local_ref<jni::JString> fallbackLabel = this->getFieldValue(fieldFallbackLabel);
+      static const auto fieldDisableDeviceFallback = clazz->getField<jni::JBoolean>("disableDeviceFallback");
+      jni::local_ref<jni::JBoolean> disableDeviceFallback = this->getFieldValue(fieldDisableDeviceFallback);
+      static const auto fieldCancelLabel = clazz->getField<jni::JString>("cancelLabel");
+      jni::local_ref<jni::JString> cancelLabel = this->getFieldValue(fieldCancelLabel);
+      static const auto fieldTitle = clazz->getField<jni::JString>("title");
+      jni::local_ref<jni::JString> title = this->getFieldValue(fieldTitle);
+      static const auto fieldSubtitle = clazz->getField<jni::JString>("subtitle");
+      jni::local_ref<jni::JString> subtitle = this->getFieldValue(fieldSubtitle);
       return AuthenticateOptions(
-        allowDeviceCredentials != nullptr ? std::make_optional(static_cast<bool>(allowDeviceCredentials->value())) : std::nullopt
+        fallbackLabel != nullptr ? std::make_optional(fallbackLabel->toStdString()) : std::nullopt,
+        disableDeviceFallback != nullptr ? std::make_optional(static_cast<bool>(disableDeviceFallback->value())) : std::nullopt,
+        cancelLabel != nullptr ? std::make_optional(cancelLabel->toStdString()) : std::nullopt,
+        title != nullptr ? std::make_optional(title->toStdString()) : std::nullopt,
+        subtitle != nullptr ? std::make_optional(subtitle->toStdString()) : std::nullopt
       );
     }
 
@@ -44,12 +57,16 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JAuthenticateOptions::javaobject> fromCpp(const AuthenticateOptions& value) {
-      using JSignature = JAuthenticateOptions(jni::alias_ref<jni::JBoolean>);
+      using JSignature = JAuthenticateOptions(jni::alias_ref<jni::JString>, jni::alias_ref<jni::JBoolean>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>, jni::alias_ref<jni::JString>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
-        value.allowDeviceCredentials.has_value() ? jni::JBoolean::valueOf(value.allowDeviceCredentials.value()) : nullptr
+        value.fallbackLabel.has_value() ? jni::make_jstring(value.fallbackLabel.value()) : nullptr,
+        value.disableDeviceFallback.has_value() ? jni::JBoolean::valueOf(value.disableDeviceFallback.value()) : nullptr,
+        value.cancelLabel.has_value() ? jni::make_jstring(value.cancelLabel.value()) : nullptr,
+        value.title.has_value() ? jni::make_jstring(value.title.value()) : nullptr,
+        value.subtitle.has_value() ? jni::make_jstring(value.subtitle.value()) : nullptr
       );
     }
   };

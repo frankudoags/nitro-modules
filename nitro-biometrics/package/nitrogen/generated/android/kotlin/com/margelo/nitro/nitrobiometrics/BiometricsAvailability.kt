@@ -20,29 +20,29 @@ import com.margelo.nitro.core.NullType
 data class BiometricsAvailability(
   @DoNotStrip
   @Keep
-  val isAvailable: Boolean,
+  val available: Boolean,
   @DoNotStrip
   @Keep
-  val biometryType: Variant_NullType_BiometryType?,
+  val biometryType: SupportedBiometryType?,
   @DoNotStrip
   @Keep
-  val error: BiometricsError?
+  val unavailableReason: BiometricsUnavailableReason?
 ) {
   /* primary constructor */
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is BiometricsAvailability) return false
-    return Objects.deepEquals(this.isAvailable, other.isAvailable)
+    return Objects.deepEquals(this.available, other.available)
       && Objects.deepEquals(this.biometryType, other.biometryType)
-      && Objects.deepEquals(this.error, other.error)
+      && Objects.deepEquals(this.unavailableReason, other.unavailableReason)
   }
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
-      isAvailable,
+      available,
       biometryType,
-      error
+      unavailableReason
     ).contentDeepHashCode()
   }
 
@@ -54,8 +54,8 @@ data class BiometricsAvailability(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(isAvailable: Boolean, biometryType: Variant_NullType_BiometryType?, error: BiometricsError?): BiometricsAvailability {
-      return BiometricsAvailability(isAvailable, biometryType, error)
+    private fun fromCpp(available: Boolean, biometryType: SupportedBiometryType?, unavailableReason: BiometricsUnavailableReason?): BiometricsAvailability {
+      return BiometricsAvailability(available, biometryType, unavailableReason)
     }
   }
 }

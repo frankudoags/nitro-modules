@@ -10,11 +10,11 @@
 #include <fbjni/fbjni.h>
 #include "BiometricsAvailability.hpp"
 
-#include "BiometricsError.hpp"
+#include "BiometricsUnavailableReason.hpp"
 #include "BiometryType.hpp"
-#include "JBiometricsError.hpp"
+#include "JBiometricsUnavailableReason.hpp"
 #include "JBiometryType.hpp"
-#include "JVariant_NullType_BiometryType.hpp"
+#include "JSupportedBiometryType.hpp"
 #include <NitroModules/JNull.hpp>
 #include <NitroModules/Null.hpp>
 #include <optional>
@@ -39,16 +39,16 @@ namespace margelo::nitro::nitrobiometrics {
     [[nodiscard]]
     BiometricsAvailability toCpp() const {
       static const auto clazz = javaClassStatic();
-      static const auto fieldIsAvailable = clazz->getField<jboolean>("isAvailable");
-      jboolean isAvailable = this->getFieldValue(fieldIsAvailable);
-      static const auto fieldBiometryType = clazz->getField<JVariant_NullType_BiometryType>("biometryType");
-      jni::local_ref<JVariant_NullType_BiometryType> biometryType = this->getFieldValue(fieldBiometryType);
-      static const auto fieldError = clazz->getField<JBiometricsError>("error");
-      jni::local_ref<JBiometricsError> error = this->getFieldValue(fieldError);
+      static const auto fieldAvailable = clazz->getField<jboolean>("available");
+      jboolean available = this->getFieldValue(fieldAvailable);
+      static const auto fieldBiometryType = clazz->getField<JSupportedBiometryType>("biometryType");
+      jni::local_ref<JSupportedBiometryType> biometryType = this->getFieldValue(fieldBiometryType);
+      static const auto fieldUnavailableReason = clazz->getField<JBiometricsUnavailableReason>("unavailableReason");
+      jni::local_ref<JBiometricsUnavailableReason> unavailableReason = this->getFieldValue(fieldUnavailableReason);
       return BiometricsAvailability(
-        static_cast<bool>(isAvailable),
+        static_cast<bool>(available),
         biometryType != nullptr ? std::make_optional(biometryType->toCpp()) : std::nullopt,
-        error != nullptr ? std::make_optional(error->toCpp()) : std::nullopt
+        unavailableReason != nullptr ? std::make_optional(unavailableReason->toCpp()) : std::nullopt
       );
     }
 
@@ -58,14 +58,14 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JBiometricsAvailability::javaobject> fromCpp(const BiometricsAvailability& value) {
-      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JVariant_NullType_BiometryType>, jni::alias_ref<JBiometricsError>);
+      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JSupportedBiometryType>, jni::alias_ref<JBiometricsUnavailableReason>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
-        value.isAvailable,
-        value.biometryType.has_value() ? JVariant_NullType_BiometryType::fromCpp(value.biometryType.value()) : nullptr,
-        value.error.has_value() ? JBiometricsError::fromCpp(value.error.value()) : nullptr
+        value.available,
+        value.biometryType.has_value() ? JSupportedBiometryType::fromCpp(value.biometryType.value()) : nullptr,
+        value.unavailableReason.has_value() ? JBiometricsUnavailableReason::fromCpp(value.unavailableReason.value()) : nullptr
       );
     }
   };

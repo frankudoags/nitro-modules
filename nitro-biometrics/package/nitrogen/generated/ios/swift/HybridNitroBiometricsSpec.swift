@@ -13,17 +13,8 @@ public protocol HybridNitroBiometricsSpec_protocol: HybridObject {
   
 
   // Methods
-  func isAvailable() throws -> BiometricsAvailability
-  func supportedAuthenticationTypes() throws -> [BiometryType]
-  func isEnrolled() throws -> Bool
-  func getPermissionsAsync() throws -> Promise<BiometricsPermissionResponse>
-  func requestPermissionsAsync(reason: String) throws -> Promise<BiometricsPermissionResponse>
+  func getAvailability() throws -> BiometricsAvailability
   func authenticate(reason: String, options: AuthenticateOptions?) throws -> Promise<BiometricsAuthResult>
-  func createKeys(options: CreateKeysOptions?) throws -> Promise<BiometricsKey>
-  func keysExist() throws -> Bool
-  func getPublicKey() throws -> Promise<Variant_NullType_BiometricsKey>
-  func deleteKeys() throws -> Void
-  func signPayload(payload: String, options: AuthenticateOptions?) throws -> Promise<BiometricsSignature>
 }
 
 public extension HybridNitroBiometricsSpec_protocol {

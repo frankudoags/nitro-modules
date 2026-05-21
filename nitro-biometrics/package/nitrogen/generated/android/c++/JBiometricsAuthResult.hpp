@@ -10,8 +10,8 @@
 #include <fbjni/fbjni.h>
 #include "BiometricsAuthResult.hpp"
 
-#include "BiometricsError.hpp"
-#include "JBiometricsError.hpp"
+#include "BiometricsAuthError.hpp"
+#include "JBiometricsAuthError.hpp"
 #include <optional>
 
 namespace margelo::nitro::nitrobiometrics {
@@ -35,8 +35,8 @@ namespace margelo::nitro::nitrobiometrics {
       static const auto clazz = javaClassStatic();
       static const auto fieldSuccess = clazz->getField<jboolean>("success");
       jboolean success = this->getFieldValue(fieldSuccess);
-      static const auto fieldError = clazz->getField<JBiometricsError>("error");
-      jni::local_ref<JBiometricsError> error = this->getFieldValue(fieldError);
+      static const auto fieldError = clazz->getField<JBiometricsAuthError>("error");
+      jni::local_ref<JBiometricsAuthError> error = this->getFieldValue(fieldError);
       return BiometricsAuthResult(
         static_cast<bool>(success),
         error != nullptr ? std::make_optional(error->toCpp()) : std::nullopt
@@ -49,13 +49,13 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JBiometricsAuthResult::javaobject> fromCpp(const BiometricsAuthResult& value) {
-      using JSignature = JBiometricsAuthResult(jboolean, jni::alias_ref<JBiometricsError>);
+      using JSignature = JBiometricsAuthResult(jboolean, jni::alias_ref<JBiometricsAuthError>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         value.success,
-        value.error.has_value() ? JBiometricsError::fromCpp(value.error.value()) : nullptr
+        value.error.has_value() ? JBiometricsAuthError::fromCpp(value.error.value()) : nullptr
       );
     }
   };

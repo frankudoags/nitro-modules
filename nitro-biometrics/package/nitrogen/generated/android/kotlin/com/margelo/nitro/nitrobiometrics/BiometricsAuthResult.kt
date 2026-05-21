@@ -23,7 +23,7 @@ data class BiometricsAuthResult(
   val success: Boolean,
   @DoNotStrip
   @Keep
-  val error: BiometricsError?
+  val error: BiometricsAuthError?
 ) {
   /* primary constructor */
 
@@ -49,7 +49,7 @@ data class BiometricsAuthResult(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(success: Boolean, error: BiometricsError?): BiometricsAuthResult {
+    private fun fromCpp(success: Boolean, error: BiometricsAuthError?): BiometricsAuthResult {
       return BiometricsAuthResult(success, error)
     }
   }

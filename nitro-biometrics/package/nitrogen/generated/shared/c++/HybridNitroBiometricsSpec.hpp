@@ -15,35 +15,17 @@
 
 // Forward declaration of `BiometricsAvailability` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAvailability; }
-// Forward declaration of `BiometryType` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { enum class BiometryType; }
-// Forward declaration of `BiometricsPermissionResponse` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsPermissionResponse; }
 // Forward declaration of `BiometricsAuthResult` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 // Forward declaration of `AuthenticateOptions` to properly resolve imports.
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
-// Forward declaration of `BiometricsKey` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsKey; }
-// Forward declaration of `CreateKeysOptions` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct CreateKeysOptions; }
-// Forward declaration of `BiometricsSignature` to properly resolve imports.
-namespace margelo::nitro::nitrobiometrics { struct BiometricsSignature; }
 
 #include "BiometricsAvailability.hpp"
-#include "BiometryType.hpp"
-#include <vector>
-#include "BiometricsPermissionResponse.hpp"
+#include "BiometricsAuthResult.hpp"
 #include <NitroModules/Promise.hpp>
 #include <string>
-#include "BiometricsAuthResult.hpp"
 #include "AuthenticateOptions.hpp"
 #include <optional>
-#include "BiometricsKey.hpp"
-#include "CreateKeysOptions.hpp"
-#include <NitroModules/Null.hpp>
-#include <variant>
-#include "BiometricsSignature.hpp"
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -76,17 +58,8 @@ namespace margelo::nitro::nitrobiometrics {
 
     public:
       // Methods
-      virtual BiometricsAvailability isAvailable() = 0;
-      virtual std::vector<BiometryType> supportedAuthenticationTypes() = 0;
-      virtual bool isEnrolled() = 0;
-      virtual std::shared_ptr<Promise<BiometricsPermissionResponse>> getPermissionsAsync() = 0;
-      virtual std::shared_ptr<Promise<BiometricsPermissionResponse>> requestPermissionsAsync(const std::string& reason) = 0;
+      virtual BiometricsAvailability getAvailability() = 0;
       virtual std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) = 0;
-      virtual std::shared_ptr<Promise<BiometricsKey>> createKeys(const std::optional<CreateKeysOptions>& options) = 0;
-      virtual bool keysExist() = 0;
-      virtual std::shared_ptr<Promise<std::variant<nitro::NullType, BiometricsKey>>> getPublicKey() = 0;
-      virtual void deleteKeys() = 0;
-      virtual std::shared_ptr<Promise<BiometricsSignature>> signPayload(const std::string& payload, const std::optional<AuthenticateOptions>& options) = 0;
 
     protected:
       // Hybrid Setup

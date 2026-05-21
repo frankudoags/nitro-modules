@@ -14,17 +14,8 @@ namespace margelo::nitro::nitrobiometrics {
     HybridObject::loadHybridMethods();
     // load custom methods/properties
     registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridMethod("isAvailable", &HybridNitroBiometricsSpec::isAvailable);
-      prototype.registerHybridMethod("supportedAuthenticationTypes", &HybridNitroBiometricsSpec::supportedAuthenticationTypes);
-      prototype.registerHybridMethod("isEnrolled", &HybridNitroBiometricsSpec::isEnrolled);
-      prototype.registerHybridMethod("getPermissionsAsync", &HybridNitroBiometricsSpec::getPermissionsAsync);
-      prototype.registerHybridMethod("requestPermissionsAsync", &HybridNitroBiometricsSpec::requestPermissionsAsync);
+      prototype.registerHybridMethod("getAvailability", &HybridNitroBiometricsSpec::getAvailability);
       prototype.registerHybridMethod("authenticate", &HybridNitroBiometricsSpec::authenticate);
-      prototype.registerHybridMethod("createKeys", &HybridNitroBiometricsSpec::createKeys);
-      prototype.registerHybridMethod("keysExist", &HybridNitroBiometricsSpec::keysExist);
-      prototype.registerHybridMethod("getPublicKey", &HybridNitroBiometricsSpec::getPublicKey);
-      prototype.registerHybridMethod("deleteKeys", &HybridNitroBiometricsSpec::deleteKeys);
-      prototype.registerHybridMethod("signPayload", &HybridNitroBiometricsSpec::signPayload);
     });
   }
 

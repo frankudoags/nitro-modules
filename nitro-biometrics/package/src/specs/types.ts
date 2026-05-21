@@ -9,76 +9,52 @@ export enum BiometryType {
   IRIS = 4,
 }
 
-/**
- * Permission status values.
- */
-export type BiometricsPermissionStatus =
-  | 'granted'
-  | 'denied'
-  | 'undetermined'
+export type SupportedBiometryType = BiometryType | null;
+
+
+export type BiometricsUnavailableReason =
+  | 'NOT_SUPPORTED'    // no biometric hardware on device
+  | 'NOT_ENROLLED'     // hardware present but no biometrics enrolled
+  | 'NOT_DETERMINED'   // iOS only: permission not yet requested
+  | 'DENIED'          // iOS only: user denied Face ID permission
+  | 'LOCKED_OUT'       // too many failed attempts; requires passcode to unlock
+  | 'PASSCODE_NOT_SET'  // iOS requires a device passcode to use biometrics
 
 /**
- * Common biometric error codes.
- */
-export type BiometricsError =
-  | 'user_cancel'
-  | 'system_cancel'
-  | 'not_available'
-  | 'not_enrolled'
-  | 'lockout'
-  | 'authentication_failed'
-  | 'unknown'
-
-/**
- * Result returned from biometric availability checks.
+ * Response from getAvailability(), which combines availability, enrollment status, and supported biometric type in a single call.
  */
 export interface BiometricsAvailability {
-  isAvailable: boolean
-  biometryType: BiometryType | null
-  error?: BiometricsError
+  available: boolean
+  biometryType: SupportedBiometryType
+  unavailableReason?: BiometricsUnavailableReason
 }
 
-/**
- * Result returned after biometric authentication.
- */
+
+export type BiometricsAuthError =
+  | 'USER_CANCEL'     // user pressed the cancel button
+  | 'USER_FALLBACK'   // user chose the passcode fallback option
+  | 'SYSTEM_CANCEL'   // OS cancelled (e.g. app went to background)
+  | 'LOCKED_OUT'      // too many failed attempts
+  | 'NOT_AVAILABLE'   // biometrics became unavailable mid-session
+  | 'UNKNOWN'         // catch-all for unexpected errors
+
 export interface BiometricsAuthResult {
   success: boolean
-  error?: BiometricsError
+  error?: BiometricsAuthError
 }
 
-/**
- * Public key returned after generation/retrieval.
- */
-export interface BiometricsKey {
-  publicKey: string
-}
-
-/**
- * Result returned after signing a payload.
- */
-export interface BiometricsSignature {
-  signature: string
-}
-
-/**
- * Biometrics permission state.
- */
-export interface BiometricsPermissionResponse {
-  granted: boolean
-  canAskAgain: boolean
-  status: BiometricsPermissionStatus
-}
-
-/**
- * Options used during biometric authentication.
- */
 export interface AuthenticateOptions {
-  allowDeviceCredentials?: boolean
-}
-
-/**
- * Options used during key generation.
- */
-export interface CreateKeysOptions {
-  invalidateOnEnrollmentChange?: boolean
+  /** iOS only: custom label for the passcode fallback button. Defaults to "Enter Passcode" */
+  fallbackLabel?: string
+  /**
+   * If true, disables the passcode fallback entirely.
+   * On Android, disables DEVICE_CREDENTIAL as an allowed authenticator.
+   */
+  disableDeviceFallback?: boolean
+  /** Custom cancel button label. Defaults to "Cancel" */
+  cancelLabel?: string
+  /** Android only: prompt title. Defaults to app name */
+  title?: string
+  /** Android only: prompt subtitle */
+  subtitle?: string
 }

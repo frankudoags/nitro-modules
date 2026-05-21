@@ -20,19 +20,39 @@ import java.util.Objects
 data class AuthenticateOptions(
   @DoNotStrip
   @Keep
-  val allowDeviceCredentials: Boolean?
+  val fallbackLabel: String?,
+  @DoNotStrip
+  @Keep
+  val disableDeviceFallback: Boolean?,
+  @DoNotStrip
+  @Keep
+  val cancelLabel: String?,
+  @DoNotStrip
+  @Keep
+  val title: String?,
+  @DoNotStrip
+  @Keep
+  val subtitle: String?
 ) {
   /* primary constructor */
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is AuthenticateOptions) return false
-    return Objects.deepEquals(this.allowDeviceCredentials, other.allowDeviceCredentials)
+    return Objects.deepEquals(this.fallbackLabel, other.fallbackLabel)
+      && Objects.deepEquals(this.disableDeviceFallback, other.disableDeviceFallback)
+      && Objects.deepEquals(this.cancelLabel, other.cancelLabel)
+      && Objects.deepEquals(this.title, other.title)
+      && Objects.deepEquals(this.subtitle, other.subtitle)
   }
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
-      allowDeviceCredentials
+      fallbackLabel,
+      disableDeviceFallback,
+      cancelLabel,
+      title,
+      subtitle
     ).contentDeepHashCode()
   }
 
@@ -44,8 +64,8 @@ data class AuthenticateOptions(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(allowDeviceCredentials: Boolean?): AuthenticateOptions {
-      return AuthenticateOptions(allowDeviceCredentials)
+    private fun fromCpp(fallbackLabel: String?, disableDeviceFallback: Boolean?, cancelLabel: String?, title: String?, subtitle: String?): AuthenticateOptions {
+      return AuthenticateOptions(fallbackLabel, disableDeviceFallback, cancelLabel, title, subtitle)
     }
   }
 }

@@ -30,6 +30,7 @@
 
 
 
+#include <string>
 #include <optional>
 
 namespace margelo::nitro::nitrobiometrics {
@@ -39,11 +40,15 @@ namespace margelo::nitro::nitrobiometrics {
    */
   struct AuthenticateOptions final {
   public:
-    std::optional<bool> allowDeviceCredentials     SWIFT_PRIVATE;
+    std::optional<std::string> fallbackLabel     SWIFT_PRIVATE;
+    std::optional<bool> disableDeviceFallback     SWIFT_PRIVATE;
+    std::optional<std::string> cancelLabel     SWIFT_PRIVATE;
+    std::optional<std::string> title     SWIFT_PRIVATE;
+    std::optional<std::string> subtitle     SWIFT_PRIVATE;
 
   public:
     AuthenticateOptions() = default;
-    explicit AuthenticateOptions(std::optional<bool> allowDeviceCredentials): allowDeviceCredentials(allowDeviceCredentials) {}
+    explicit AuthenticateOptions(std::optional<std::string> fallbackLabel, std::optional<bool> disableDeviceFallback, std::optional<std::string> cancelLabel, std::optional<std::string> title, std::optional<std::string> subtitle): fallbackLabel(fallbackLabel), disableDeviceFallback(disableDeviceFallback), cancelLabel(cancelLabel), title(title), subtitle(subtitle) {}
 
   public:
     friend bool operator==(const AuthenticateOptions& lhs, const AuthenticateOptions& rhs) = default;
@@ -59,12 +64,20 @@ namespace margelo::nitro {
     static inline margelo::nitro::nitrobiometrics::AuthenticateOptions fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::nitrobiometrics::AuthenticateOptions(
-        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "allowDeviceCredentials")))
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "fallbackLabel"))),
+        JSIConverter<std::optional<bool>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "disableDeviceFallback"))),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "cancelLabel"))),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title"))),
+        JSIConverter<std::optional<std::string>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "subtitle")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::nitrobiometrics::AuthenticateOptions& arg) {
       jsi::Object obj(runtime);
-      obj.setProperty(runtime, PropNameIDCache::get(runtime, "allowDeviceCredentials"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.allowDeviceCredentials));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "fallbackLabel"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.fallbackLabel));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "disableDeviceFallback"), JSIConverter<std::optional<bool>>::toJSI(runtime, arg.disableDeviceFallback));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "cancelLabel"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.cancelLabel));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "title"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.title));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "subtitle"), JSIConverter<std::optional<std::string>>::toJSI(runtime, arg.subtitle));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -75,7 +88,11 @@ namespace margelo::nitro {
       if (!nitro::isPlainObject(runtime, obj)) {
         return false;
       }
-      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "allowDeviceCredentials")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "fallbackLabel")))) return false;
+      if (!JSIConverter<std::optional<bool>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "disableDeviceFallback")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "cancelLabel")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "title")))) return false;
+      if (!JSIConverter<std::optional<std::string>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "subtitle")))) return false;
       return true;
     }
   };

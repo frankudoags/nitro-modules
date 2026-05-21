@@ -18,8 +18,8 @@ public extension BiometricsAvailability {
   /**
    * Create a new instance of `BiometricsAvailability`.
    */
-  init(isAvailable: Bool, biometryType: Variant_NullType_BiometryType?, error: BiometricsError?) {
-    self.init(isAvailable, { () -> bridge.std__optional_std__variant_nitro__NullType__BiometryType__ in
+  init(available: Bool, biometryType: SupportedBiometryType?, unavailableReason: BiometricsUnavailableReason?) {
+    self.init(available, { () -> bridge.std__optional_std__variant_nitro__NullType__BiometryType__ in
       if let __unwrappedValue = biometryType {
         return bridge.create_std__optional_std__variant_nitro__NullType__BiometryType__({ () -> bridge.std__variant_nitro__NullType__BiometryType_ in
           switch __unwrappedValue {
@@ -32,9 +32,9 @@ public extension BiometricsAvailability {
       } else {
         return .init()
       }
-    }(), { () -> bridge.std__optional_BiometricsError_ in
-      if let __unwrappedValue = error {
-        return bridge.create_std__optional_BiometricsError_(__unwrappedValue)
+    }(), { () -> bridge.std__optional_BiometricsUnavailableReason_ in
+      if let __unwrappedValue = unavailableReason {
+        return bridge.create_std__optional_BiometricsUnavailableReason_(__unwrappedValue)
       } else {
         return .init()
       }
@@ -42,16 +42,16 @@ public extension BiometricsAvailability {
   }
 
   @inline(__always)
-  var isAvailable: Bool {
-    return self.__isAvailable
+  var available: Bool {
+    return self.__available
   }
   
   @inline(__always)
-  var biometryType: Variant_NullType_BiometryType? {
-    return { () -> Variant_NullType_BiometryType? in
+  var biometryType: SupportedBiometryType? {
+    return { () -> SupportedBiometryType? in
       if bridge.has_value_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType) {
         let __unwrapped = bridge.get_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType)
-        return { () -> Variant_NullType_BiometryType in
+        return { () -> SupportedBiometryType in
           let __variant = bridge.std__variant_nitro__NullType__BiometryType_(__unwrapped)
           switch __variant.index() {
             case 0:
@@ -71,7 +71,7 @@ public extension BiometricsAvailability {
   }
   
   @inline(__always)
-  var error: BiometricsError? {
-    return self.__error.value
+  var unavailableReason: BiometricsUnavailableReason? {
+    return self.__unavailableReason.value
   }
 }

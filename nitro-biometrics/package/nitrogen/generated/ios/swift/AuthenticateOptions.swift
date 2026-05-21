@@ -18,10 +18,34 @@ public extension AuthenticateOptions {
   /**
    * Create a new instance of `AuthenticateOptions`.
    */
-  init(allowDeviceCredentials: Bool?) {
-    self.init({ () -> bridge.std__optional_bool_ in
-      if let __unwrappedValue = allowDeviceCredentials {
+  init(fallbackLabel: String?, disableDeviceFallback: Bool?, cancelLabel: String?, title: String?, subtitle: String?) {
+    self.init({ () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = fallbackLabel {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_bool_ in
+      if let __unwrappedValue = disableDeviceFallback {
         return bridge.create_std__optional_bool_(__unwrappedValue)
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = cancelLabel {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = title {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
+      } else {
+        return .init()
+      }
+    }(), { () -> bridge.std__optional_std__string_ in
+      if let __unwrappedValue = subtitle {
+        return bridge.create_std__optional_std__string_(std.string(__unwrappedValue))
       } else {
         return .init()
       }
@@ -29,11 +53,59 @@ public extension AuthenticateOptions {
   }
 
   @inline(__always)
-  var allowDeviceCredentials: Bool? {
+  var fallbackLabel: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__fallbackLabel) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__fallbackLabel)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+  
+  @inline(__always)
+  var disableDeviceFallback: Bool? {
     return { () -> Bool? in
-      if bridge.has_value_std__optional_bool_(self.__allowDeviceCredentials) {
-        let __unwrapped = bridge.get_std__optional_bool_(self.__allowDeviceCredentials)
+      if bridge.has_value_std__optional_bool_(self.__disableDeviceFallback) {
+        let __unwrapped = bridge.get_std__optional_bool_(self.__disableDeviceFallback)
         return __unwrapped
+      } else {
+        return nil
+      }
+    }()
+  }
+  
+  @inline(__always)
+  var cancelLabel: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__cancelLabel) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__cancelLabel)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+  
+  @inline(__always)
+  var title: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__title) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__title)
+        return String(__unwrapped)
+      } else {
+        return nil
+      }
+    }()
+  }
+  
+  @inline(__always)
+  var subtitle: String? {
+    return { () -> String? in
+      if bridge.has_value_std__optional_std__string_(self.__subtitle) {
+        let __unwrapped = bridge.get_std__optional_std__string_(self.__subtitle)
+        return String(__unwrapped)
       } else {
         return nil
       }
