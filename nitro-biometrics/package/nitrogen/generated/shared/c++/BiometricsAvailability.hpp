@@ -36,8 +36,9 @@ namespace margelo::nitro::nitrobiometrics { enum class BiometricsUnavailableReas
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
 #include <variant>
-#include <optional>
+#include <vector>
 #include "BiometricsUnavailableReason.hpp"
+#include <optional>
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -47,12 +48,13 @@ namespace margelo::nitro::nitrobiometrics {
   struct BiometricsAvailability final {
   public:
     bool available     SWIFT_PRIVATE;
-    std::optional<std::variant<nitro::NullType, BiometryType>> biometryType     SWIFT_PRIVATE;
+    bool isEnrolled     SWIFT_PRIVATE;
+    std::vector<std::variant<nitro::NullType, BiometryType>> supportedBiometryTypes     SWIFT_PRIVATE;
     std::optional<BiometricsUnavailableReason> unavailableReason     SWIFT_PRIVATE;
 
   public:
     BiometricsAvailability() = default;
-    explicit BiometricsAvailability(bool available, std::optional<std::variant<nitro::NullType, BiometryType>> biometryType, std::optional<BiometricsUnavailableReason> unavailableReason): available(available), biometryType(biometryType), unavailableReason(unavailableReason) {}
+    explicit BiometricsAvailability(bool available, bool isEnrolled, std::vector<std::variant<nitro::NullType, BiometryType>> supportedBiometryTypes, std::optional<BiometricsUnavailableReason> unavailableReason): available(available), isEnrolled(isEnrolled), supportedBiometryTypes(supportedBiometryTypes), unavailableReason(unavailableReason) {}
 
   public:
     friend bool operator==(const BiometricsAvailability& lhs, const BiometricsAvailability& rhs) = default;
@@ -69,14 +71,16 @@ namespace margelo::nitro {
       jsi::Object obj = arg.asObject(runtime);
       return margelo::nitro::nitrobiometrics::BiometricsAvailability(
         JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "available"))),
-        JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "biometryType"))),
+        JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isEnrolled"))),
+        JSIConverter<std::vector<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "supportedBiometryTypes"))),
         JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsUnavailableReason>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "unavailableReason")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::nitrobiometrics::BiometricsAvailability& arg) {
       jsi::Object obj(runtime);
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "available"), JSIConverter<bool>::toJSI(runtime, arg.available));
-      obj.setProperty(runtime, PropNameIDCache::get(runtime, "biometryType"), JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::toJSI(runtime, arg.biometryType));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "isEnrolled"), JSIConverter<bool>::toJSI(runtime, arg.isEnrolled));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "supportedBiometryTypes"), JSIConverter<std::vector<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::toJSI(runtime, arg.supportedBiometryTypes));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "unavailableReason"), JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsUnavailableReason>>::toJSI(runtime, arg.unavailableReason));
       return obj;
     }
@@ -89,7 +93,8 @@ namespace margelo::nitro {
         return false;
       }
       if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "available")))) return false;
-      if (!JSIConverter<std::optional<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "biometryType")))) return false;
+      if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "isEnrolled")))) return false;
+      if (!JSIConverter<std::vector<std::variant<nitro::NullType, margelo::nitro::nitrobiometrics::BiometryType>>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "supportedBiometryTypes")))) return false;
       if (!JSIConverter<std::optional<margelo::nitro::nitrobiometrics::BiometricsUnavailableReason>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "unavailableReason")))) return false;
       return true;
     }

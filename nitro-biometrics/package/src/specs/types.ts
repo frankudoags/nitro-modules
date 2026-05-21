@@ -25,7 +25,8 @@ export type BiometricsUnavailableReason =
  */
 export interface BiometricsAvailability {
   available: boolean
-  biometryType: SupportedBiometryType
+  isEnrolled: boolean
+  supportedBiometryTypes: SupportedBiometryType[]
   unavailableReason?: BiometricsUnavailableReason
 }
 

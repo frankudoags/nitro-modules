@@ -29,8 +29,9 @@ namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
 #include <variant>
-#include <optional>
+#include <vector>
 #include "BiometricsUnavailableReason.hpp"
+#include <optional>
 #include "BiometricsAuthResult.hpp"
 #include <NitroModules/Promise.hpp>
 #include "BiometricsAuthError.hpp"

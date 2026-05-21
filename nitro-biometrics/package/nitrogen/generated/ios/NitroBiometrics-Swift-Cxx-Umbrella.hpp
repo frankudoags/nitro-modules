@@ -39,6 +39,7 @@ namespace margelo::nitro::nitrobiometrics { class HybridNitroBiometricsSpec; }
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 // C++ helpers for Swift
 #include "NitroBiometrics-Swift-Cxx-Bridge.hpp"

@@ -19,6 +19,7 @@
 #include <NitroModules/Null.hpp>
 #include <optional>
 #include <variant>
+#include <vector>
 
 namespace margelo::nitro::nitrobiometrics {
 
@@ -41,13 +42,25 @@ namespace margelo::nitro::nitrobiometrics {
       static const auto clazz = javaClassStatic();
       static const auto fieldAvailable = clazz->getField<jboolean>("available");
       jboolean available = this->getFieldValue(fieldAvailable);
-      static const auto fieldBiometryType = clazz->getField<JSupportedBiometryType>("biometryType");
-      jni::local_ref<JSupportedBiometryType> biometryType = this->getFieldValue(fieldBiometryType);
+      static const auto fieldIsEnrolled = clazz->getField<jboolean>("isEnrolled");
+      jboolean isEnrolled = this->getFieldValue(fieldIsEnrolled);
+      static const auto fieldSupportedBiometryTypes = clazz->getField<jni::JArrayClass<JSupportedBiometryType>>("supportedBiometryTypes");
+      jni::local_ref<jni::JArrayClass<JSupportedBiometryType>> supportedBiometryTypes = this->getFieldValue(fieldSupportedBiometryTypes);
       static const auto fieldUnavailableReason = clazz->getField<JBiometricsUnavailableReason>("unavailableReason");
       jni::local_ref<JBiometricsUnavailableReason> unavailableReason = this->getFieldValue(fieldUnavailableReason);
       return BiometricsAvailability(
         static_cast<bool>(available),
-        biometryType != nullptr ? std::make_optional(biometryType->toCpp()) : std::nullopt,
+        static_cast<bool>(isEnrolled),
+        [&](auto&& __input) {
+          size_t __size = __input->size();
+          std::vector<std::variant<nitro::NullType, BiometryType>> __vector;
+          __vector.reserve(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            auto __element = __input->getElement(__i);
+            __vector.push_back(__element->toCpp());
+          }
+          return __vector;
+        }(supportedBiometryTypes),
         unavailableReason != nullptr ? std::make_optional(unavailableReason->toCpp()) : std::nullopt
       );
     }
@@ -58,13 +71,23 @@ namespace margelo::nitro::nitrobiometrics {
      */
     [[maybe_unused]]
     static jni::local_ref<JBiometricsAvailability::javaobject> fromCpp(const BiometricsAvailability& value) {
-      using JSignature = JBiometricsAvailability(jboolean, jni::alias_ref<JSupportedBiometryType>, jni::alias_ref<JBiometricsUnavailableReason>);
+      using JSignature = JBiometricsAvailability(jboolean, jboolean, jni::alias_ref<jni::JArrayClass<JSupportedBiometryType>>, jni::alias_ref<JBiometricsUnavailableReason>);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
         clazz,
         value.available,
-        value.biometryType.has_value() ? JSupportedBiometryType::fromCpp(value.biometryType.value()) : nullptr,
+        value.isEnrolled,
+        [&](auto&& __input) {
+          size_t __size = __input.size();
+          jni::local_ref<jni::JArrayClass<JSupportedBiometryType>> __array = jni::JArrayClass<JSupportedBiometryType>::newArray(__size);
+          for (size_t __i = 0; __i < __size; __i++) {
+            const auto& __element = __input[__i];
+            auto __elementJni = JSupportedBiometryType::fromCpp(__element);
+            __array->setElement(__i, *__elementJni);
+          }
+          return __array;
+        }(value.supportedBiometryTypes),
         value.unavailableReason.has_value() ? JBiometricsUnavailableReason::fromCpp(value.unavailableReason.value()) : nullptr
       );
     }

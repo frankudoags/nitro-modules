@@ -23,7 +23,10 @@ data class BiometricsAvailability(
   val available: Boolean,
   @DoNotStrip
   @Keep
-  val biometryType: SupportedBiometryType?,
+  val isEnrolled: Boolean,
+  @DoNotStrip
+  @Keep
+  val supportedBiometryTypes: Array<SupportedBiometryType>,
   @DoNotStrip
   @Keep
   val unavailableReason: BiometricsUnavailableReason?
@@ -34,14 +37,16 @@ data class BiometricsAvailability(
     if (this === other) return true
     if (other !is BiometricsAvailability) return false
     return Objects.deepEquals(this.available, other.available)
-      && Objects.deepEquals(this.biometryType, other.biometryType)
+      && Objects.deepEquals(this.isEnrolled, other.isEnrolled)
+      && Objects.deepEquals(this.supportedBiometryTypes, other.supportedBiometryTypes)
       && Objects.deepEquals(this.unavailableReason, other.unavailableReason)
   }
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
       available,
-      biometryType,
+      isEnrolled,
+      supportedBiometryTypes,
       unavailableReason
     ).contentDeepHashCode()
   }
@@ -54,8 +59,8 @@ data class BiometricsAvailability(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(available: Boolean, biometryType: SupportedBiometryType?, unavailableReason: BiometricsUnavailableReason?): BiometricsAvailability {
-      return BiometricsAvailability(available, biometryType, unavailableReason)
+    private fun fromCpp(available: Boolean, isEnrolled: Boolean, supportedBiometryTypes: Array<SupportedBiometryType>, unavailableReason: BiometricsUnavailableReason?): BiometricsAvailability {
+      return BiometricsAvailability(available, isEnrolled, supportedBiometryTypes, unavailableReason)
     }
   }
 }

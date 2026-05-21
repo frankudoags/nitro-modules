@@ -45,6 +45,7 @@ namespace NitroBiometrics { class HybridNitroBiometricsSpec_cxx; }
 #include <optional>
 #include <string>
 #include <variant>
+#include <vector>
 
 /**
  * Contains specialized versions of C++ templated types so they can be accessed from Swift,
@@ -81,19 +82,15 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     return std__variant_nitro__NullType__BiometryType_(value);
   }
   
-  // pragma MARK: std::optional<std::variant<nitro::NullType, BiometryType>>
+  // pragma MARK: std::vector<std::variant<nitro::NullType, BiometryType>>
   /**
-   * Specialized version of `std::optional<std::variant<nitro::NullType, BiometryType>>`.
+   * Specialized version of `std::vector<std::variant<nitro::NullType, BiometryType>>`.
    */
-  using std__optional_std__variant_nitro__NullType__BiometryType__ = std::optional<std::variant<nitro::NullType, BiometryType>>;
-  inline std::optional<std::variant<nitro::NullType, BiometryType>> create_std__optional_std__variant_nitro__NullType__BiometryType__(const std::variant<nitro::NullType, BiometryType>& value) noexcept {
-    return std::optional<std::variant<nitro::NullType, BiometryType>>(value);
-  }
-  inline bool has_value_std__optional_std__variant_nitro__NullType__BiometryType__(const std::optional<std::variant<nitro::NullType, BiometryType>>& optional) noexcept {
-    return optional.has_value();
-  }
-  inline std::variant<nitro::NullType, BiometryType> get_std__optional_std__variant_nitro__NullType__BiometryType__(const std::optional<std::variant<nitro::NullType, BiometryType>>& optional) noexcept {
-    return optional.value();
+  using std__vector_std__variant_nitro__NullType__BiometryType__ = std::vector<std::variant<nitro::NullType, BiometryType>>;
+  inline std::vector<std::variant<nitro::NullType, BiometryType>> create_std__vector_std__variant_nitro__NullType__BiometryType__(size_t size) noexcept {
+    std::vector<std::variant<nitro::NullType, BiometryType>> vector;
+    vector.reserve(size);
+    return vector;
   }
   
   // pragma MARK: std::optional<BiometricsUnavailableReason>

@@ -18,20 +18,20 @@ public extension BiometricsAvailability {
   /**
    * Create a new instance of `BiometricsAvailability`.
    */
-  init(available: Bool, biometryType: SupportedBiometryType?, unavailableReason: BiometricsUnavailableReason?) {
-    self.init(available, { () -> bridge.std__optional_std__variant_nitro__NullType__BiometryType__ in
-      if let __unwrappedValue = biometryType {
-        return bridge.create_std__optional_std__variant_nitro__NullType__BiometryType__({ () -> bridge.std__variant_nitro__NullType__BiometryType_ in
-          switch __unwrappedValue {
+  init(available: Bool, isEnrolled: Bool, supportedBiometryTypes: [SupportedBiometryType], unavailableReason: BiometricsUnavailableReason?) {
+    self.init(available, isEnrolled, { () -> bridge.std__vector_std__variant_nitro__NullType__BiometryType__ in
+      var __vector = bridge.create_std__vector_std__variant_nitro__NullType__BiometryType__(supportedBiometryTypes.count)
+      for __item in supportedBiometryTypes {
+        __vector.push_back({ () -> bridge.std__variant_nitro__NullType__BiometryType_ in
+          switch __item {
             case .first(let __value):
               return bridge.create_std__variant_nitro__NullType__BiometryType_(margelo.nitro.NullType.null)
             case .second(let __value):
               return bridge.create_std__variant_nitro__NullType__BiometryType_(__value)
           }
         }().variant)
-      } else {
-        return .init()
       }
+      return __vector
     }(), { () -> bridge.std__optional_BiometricsUnavailableReason_ in
       if let __unwrappedValue = unavailableReason {
         return bridge.create_std__optional_BiometricsUnavailableReason_(__unwrappedValue)
@@ -47,27 +47,25 @@ public extension BiometricsAvailability {
   }
   
   @inline(__always)
-  var biometryType: SupportedBiometryType? {
-    return { () -> SupportedBiometryType? in
-      if bridge.has_value_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType) {
-        let __unwrapped = bridge.get_std__optional_std__variant_nitro__NullType__BiometryType__(self.__biometryType)
-        return { () -> SupportedBiometryType in
-          let __variant = bridge.std__variant_nitro__NullType__BiometryType_(__unwrapped)
-          switch __variant.index() {
-            case 0:
-              let __actual = __variant.get_0()
-              return .first(NullType.null)
-            case 1:
-              let __actual = __variant.get_1()
-              return .second(__actual)
-            default:
-              fatalError("Variant can never have index \(__variant.index())!")
-          }
-        }()
-      } else {
-        return nil
+  var isEnrolled: Bool {
+    return self.__isEnrolled
+  }
+  
+  @inline(__always)
+  var supportedBiometryTypes: [SupportedBiometryType] {
+    return self.__supportedBiometryTypes.map({ __item in { () -> SupportedBiometryType in
+      let __variant = bridge.std__variant_nitro__NullType__BiometryType_(__item)
+      switch __variant.index() {
+        case 0:
+          let __actual = __variant.get_0()
+          return .first(NullType.null)
+        case 1:
+          let __actual = __variant.get_1()
+          return .second(__actual)
+        default:
+          fatalError("Variant can never have index \(__variant.index())!")
       }
-    }()
+    }() })
   }
   
   @inline(__always)
