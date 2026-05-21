@@ -1,7 +1,7 @@
 {
-  "name": "nitro-biometrics",
+  "name": "react-native-nitro-biometrics",
   "version": "0.0.1",
-  "description": "nitro-biometrics",
+  "description": "A Simple Nitro module to authenticate users with biometrics on iOS and Android.",
   "main": "lib/index",
   "module": "lib/index",
   "types": "lib/index.d.ts",
@@ -51,10 +51,7 @@
     "touch_id",
     "face_id",
     "optic_id",
-    "authentication",
-    "security",
-    "encryption",
-    "keychain"
+    "authentication"
   ],
   "repository": {
     "type": "git",
