@@ -29,12 +29,14 @@ namespace margelo::nitro::nitrobiometrics {
    * An enum which can be represented as a JavaScript union (BiometricsAuthError).
    */
   enum class BiometricsAuthError {
-    LOCKED_OUT      SWIFT_NAME(lockedOut) = 0,
-    USER_CANCEL      SWIFT_NAME(userCancel) = 1,
-    USER_FALLBACK      SWIFT_NAME(userFallback) = 2,
-    SYSTEM_CANCEL      SWIFT_NAME(systemCancel) = 3,
-    NOT_AVAILABLE      SWIFT_NAME(notAvailable) = 4,
-    UNKNOWN      SWIFT_NAME(unknown) = 5,
+    NOT_ENROLLED      SWIFT_NAME(notEnrolled) = 0,
+    LOCKED_OUT      SWIFT_NAME(lockedOut) = 1,
+    USER_CANCEL      SWIFT_NAME(userCancel) = 2,
+    APP_CANCEL      SWIFT_NAME(appCancel) = 3,
+    SYSTEM_CANCEL      SWIFT_NAME(systemCancel) = 4,
+    USER_FALLBACK      SWIFT_NAME(userFallback) = 5,
+    NOT_AVAILABLE      SWIFT_NAME(notAvailable) = 6,
+    UNKNOWN      SWIFT_NAME(unknown) = 7,
   } CLOSED_ENUM;
 
 } // namespace margelo::nitro::nitrobiometrics
@@ -47,10 +49,12 @@ namespace margelo::nitro {
     static inline margelo::nitro::nitrobiometrics::BiometricsAuthError fromJSI(jsi::Runtime& runtime, const jsi::Value& arg) {
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, arg);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
+        case hashString("NOT_ENROLLED"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::NOT_ENROLLED;
         case hashString("LOCKED_OUT"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::LOCKED_OUT;
         case hashString("USER_CANCEL"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_CANCEL;
-        case hashString("USER_FALLBACK"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_FALLBACK;
+        case hashString("APP_CANCEL"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::APP_CANCEL;
         case hashString("SYSTEM_CANCEL"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::SYSTEM_CANCEL;
+        case hashString("USER_FALLBACK"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_FALLBACK;
         case hashString("NOT_AVAILABLE"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::NOT_AVAILABLE;
         case hashString("UNKNOWN"): return margelo::nitro::nitrobiometrics::BiometricsAuthError::UNKNOWN;
         default: [[unlikely]]
@@ -59,10 +63,12 @@ namespace margelo::nitro {
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, margelo::nitro::nitrobiometrics::BiometricsAuthError arg) {
       switch (arg) {
+        case margelo::nitro::nitrobiometrics::BiometricsAuthError::NOT_ENROLLED: return JSIConverter<std::string>::toJSI(runtime, "NOT_ENROLLED");
         case margelo::nitro::nitrobiometrics::BiometricsAuthError::LOCKED_OUT: return JSIConverter<std::string>::toJSI(runtime, "LOCKED_OUT");
         case margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_CANCEL: return JSIConverter<std::string>::toJSI(runtime, "USER_CANCEL");
-        case margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_FALLBACK: return JSIConverter<std::string>::toJSI(runtime, "USER_FALLBACK");
+        case margelo::nitro::nitrobiometrics::BiometricsAuthError::APP_CANCEL: return JSIConverter<std::string>::toJSI(runtime, "APP_CANCEL");
         case margelo::nitro::nitrobiometrics::BiometricsAuthError::SYSTEM_CANCEL: return JSIConverter<std::string>::toJSI(runtime, "SYSTEM_CANCEL");
+        case margelo::nitro::nitrobiometrics::BiometricsAuthError::USER_FALLBACK: return JSIConverter<std::string>::toJSI(runtime, "USER_FALLBACK");
         case margelo::nitro::nitrobiometrics::BiometricsAuthError::NOT_AVAILABLE: return JSIConverter<std::string>::toJSI(runtime, "NOT_AVAILABLE");
         case margelo::nitro::nitrobiometrics::BiometricsAuthError::UNKNOWN: return JSIConverter<std::string>::toJSI(runtime, "UNKNOWN");
         default: [[unlikely]]
@@ -76,10 +82,12 @@ namespace margelo::nitro {
       }
       std::string unionValue = JSIConverter<std::string>::fromJSI(runtime, value);
       switch (hashString(unionValue.c_str(), unionValue.size())) {
+        case hashString("NOT_ENROLLED"):
         case hashString("LOCKED_OUT"):
         case hashString("USER_CANCEL"):
-        case hashString("USER_FALLBACK"):
+        case hashString("APP_CANCEL"):
         case hashString("SYSTEM_CANCEL"):
+        case hashString("USER_FALLBACK"):
         case hashString("NOT_AVAILABLE"):
         case hashString("UNKNOWN"):
           return true;

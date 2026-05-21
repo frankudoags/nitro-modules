@@ -16,12 +16,14 @@ import com.facebook.proguard.annotations.DoNotStrip
 @DoNotStrip
 @Keep
 enum class BiometricsAuthError(@DoNotStrip @Keep val value: Int) {
-  LOCKED_OUT(0),
-  USER_CANCEL(1),
-  USER_FALLBACK(2),
-  SYSTEM_CANCEL(3),
-  NOT_AVAILABLE(4),
-  UNKNOWN(5);
+  NOT_ENROLLED(0),
+  LOCKED_OUT(1),
+  USER_CANCEL(2),
+  APP_CANCEL(3),
+  SYSTEM_CANCEL(4),
+  USER_FALLBACK(5),
+  NOT_AVAILABLE(6),
+  UNKNOWN(7);
 
   companion object
 }

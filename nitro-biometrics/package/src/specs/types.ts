@@ -32,9 +32,11 @@ export interface BiometricsAvailability {
 
 
 export type BiometricsAuthError =
-  | 'USER_CANCEL'     // user pressed the cancel button
-  | 'USER_FALLBACK'   // user chose the passcode fallback option
+  | 'NOT_ENROLLED'     // no biometrics enrolled
+  | 'USER_CANCEL'     // user pressed the cancel button 
+  | 'APP_CANCEL'      // app cancelled (e.g. due to navigation)
   | 'SYSTEM_CANCEL'   // OS cancelled (e.g. app went to background)
+  | 'USER_FALLBACK'   // user chose the passcode fallback option
   | 'LOCKED_OUT'      // too many failed attempts
   | 'NOT_AVAILABLE'   // biometrics became unavailable mid-session
   | 'UNKNOWN'         // catch-all for unexpected errors

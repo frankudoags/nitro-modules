@@ -42,18 +42,24 @@ namespace margelo::nitro::nitrobiometrics {
     static jni::alias_ref<JBiometricsAuthError> fromCpp(BiometricsAuthError value) {
       static const auto clazz = javaClassStatic();
       switch (value) {
+        case BiometricsAuthError::NOT_ENROLLED:
+          static const auto fieldNOT_ENROLLED = clazz->getStaticField<JBiometricsAuthError>("NOT_ENROLLED");
+          return clazz->getStaticFieldValue(fieldNOT_ENROLLED);
         case BiometricsAuthError::LOCKED_OUT:
           static const auto fieldLOCKED_OUT = clazz->getStaticField<JBiometricsAuthError>("LOCKED_OUT");
           return clazz->getStaticFieldValue(fieldLOCKED_OUT);
         case BiometricsAuthError::USER_CANCEL:
           static const auto fieldUSER_CANCEL = clazz->getStaticField<JBiometricsAuthError>("USER_CANCEL");
           return clazz->getStaticFieldValue(fieldUSER_CANCEL);
-        case BiometricsAuthError::USER_FALLBACK:
-          static const auto fieldUSER_FALLBACK = clazz->getStaticField<JBiometricsAuthError>("USER_FALLBACK");
-          return clazz->getStaticFieldValue(fieldUSER_FALLBACK);
+        case BiometricsAuthError::APP_CANCEL:
+          static const auto fieldAPP_CANCEL = clazz->getStaticField<JBiometricsAuthError>("APP_CANCEL");
+          return clazz->getStaticFieldValue(fieldAPP_CANCEL);
         case BiometricsAuthError::SYSTEM_CANCEL:
           static const auto fieldSYSTEM_CANCEL = clazz->getStaticField<JBiometricsAuthError>("SYSTEM_CANCEL");
           return clazz->getStaticFieldValue(fieldSYSTEM_CANCEL);
+        case BiometricsAuthError::USER_FALLBACK:
+          static const auto fieldUSER_FALLBACK = clazz->getStaticField<JBiometricsAuthError>("USER_FALLBACK");
+          return clazz->getStaticFieldValue(fieldUSER_FALLBACK);
         case BiometricsAuthError::NOT_AVAILABLE:
           static const auto fieldNOT_AVAILABLE = clazz->getStaticField<JBiometricsAuthError>("NOT_AVAILABLE");
           return clazz->getStaticFieldValue(fieldNOT_AVAILABLE);

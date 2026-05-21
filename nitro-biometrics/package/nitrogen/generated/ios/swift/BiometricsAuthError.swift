@@ -17,14 +17,18 @@ public extension BiometricsAuthError {
    */
   init?(fromString string: String) {
     switch string {
+      case "NOT_ENROLLED":
+        self = .notEnrolled
       case "LOCKED_OUT":
         self = .lockedOut
       case "USER_CANCEL":
         self = .userCancel
-      case "USER_FALLBACK":
-        self = .userFallback
+      case "APP_CANCEL":
+        self = .appCancel
       case "SYSTEM_CANCEL":
         self = .systemCancel
+      case "USER_FALLBACK":
+        self = .userFallback
       case "NOT_AVAILABLE":
         self = .notAvailable
       case "UNKNOWN":
@@ -39,14 +43,18 @@ public extension BiometricsAuthError {
    */
   var stringValue: String {
     switch self {
+      case .notEnrolled:
+        return "NOT_ENROLLED"
       case .lockedOut:
         return "LOCKED_OUT"
       case .userCancel:
         return "USER_CANCEL"
-      case .userFallback:
-        return "USER_FALLBACK"
+      case .appCancel:
+        return "APP_CANCEL"
       case .systemCancel:
         return "SYSTEM_CANCEL"
+      case .userFallback:
+        return "USER_FALLBACK"
       case .notAvailable:
         return "NOT_AVAILABLE"
       case .unknown:
