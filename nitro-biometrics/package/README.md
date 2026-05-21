@@ -61,4 +61,4 @@ MIT
 
 ## Credits
 
-This package is based on the work of [expo-local-authentication](https://github.com/expo/expo/tree/main/packages/expo-local-authentication/) with some code being copied verbatim and some being adapted to work with Nitro. The original license for that package is MIT, which is compatible with this package's license. See the [expo](https://github.com/expo/expo/blob/main/LICENSE) repository for more information.
+This package is based on the work of [expo-local-authentication](https://github.com/expo/expo/tree/main/packages/expo-local-authentication/) with some code being copied verbatim and some being adapted to work with my preferences. The original license for that package is MIT, which is compatible with this package's license. See the [expo](https://github.com/expo/expo/blob/main/LICENSE) repository for more information.
