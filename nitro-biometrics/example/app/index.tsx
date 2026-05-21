@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,17 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  Linking,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { NitroBiometrics } from 'nitro-biometrics';
 import type {
   BiometricsAvailability,
   BiometricsAuthResult,
-  BiometricsKey,
-  BiometricsSignature,
 } from 'nitro-biometrics';
 
-const BIOMETRY_TYPE_LABELS: Record<number, string> = {
+const BIOMETRY_LABELS: Record<number, string> = {
   0: 'Face ID',
   1: 'Touch ID',
   2: 'Fingerprint',
@@ -25,95 +25,27 @@ const BIOMETRY_TYPE_LABELS: Record<number, string> = {
   4: 'Iris',
 };
 
-function SectionCard({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{title}</Text>
-      {children}
-    </View>
-  );
-}
-
-function ActionButton({
-  title,
-  onPress,
-  loading,
-  color = '#4f46e5',
-}: {
-  title: string;
-  onPress: () => void;
-  loading?: boolean;
-  color?: string;
-}) {
-  return (
-    <TouchableOpacity
-      style={[styles.button, { backgroundColor: color }]}
-      onPress={onPress}
-      disabled={loading}
-      activeOpacity={0.7}
-    >
-      {loading ? (
-        <ActivityIndicator color="#fff" size="small" />
-      ) : (
-        <Text style={styles.buttonText}>{title}</Text>
-      )}
-    </TouchableOpacity>
-  );
-}
-
-function ResultBlock({
-  label,
-  value,
-  mono = false,
-}: {
-  label: string;
-  value: string | null;
-  mono?: boolean;
-}) {
-  if (value === null) return null;
-  return (
-    <View style={styles.resultBlock}>
-      <Text style={styles.resultLabel}>{label}</Text>
-      <Text style={[styles.resultValue, mono && styles.mono]}>{value}</Text>
-    </View>
-  );
-}
-
-function StatusBadge({ available }: { available: boolean }) {
-  return (
-    <View style={[styles.badge, available ? styles.badgeGreen : styles.badgeRed]}>
-      <Text style={styles.badgeText}>{available ? 'Available' : 'Unavailable'}</Text>
-    </View>
+function showEnrollmentAlert() {
+  Alert.alert(
+    'Not Enrolled',
+    'No biometrics are enrolled. Go to Settings to set up Face ID, Touch ID, or a fingerprint.',
+    [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Open Settings', onPress: () => Linking.openSettings() },
+    ],
   );
 }
 
 export default function HomeScreen() {
   const [availability, setAvailability] = useState<BiometricsAvailability | null>(null);
   const [authResult, setAuthResult] = useState<BiometricsAuthResult | null>(null);
-  const [keyResult, setKeyResult] = useState<BiometricsKey | null>(null);
-  const [signatureResult, setSignatureResult] = useState<BiometricsSignature | null>(null);
   const [loading, setLoading] = useState<string | null>(null);
-
-  const checkWorks = useCallback(() => {
-    try {
-      const works = NitroBiometrics.works();
-      Alert.alert('Works Check', works ? 'Biometrics module is working!' : 'Not working');
-    } catch (error: any) {
-      Alert.alert('Error', error?.message ?? String(error));
-    }
-  }, []);
 
   const checkAvailability = useCallback(async () => {
     setLoading('availability');
     setAvailability(null);
     try {
-      const result = NitroBiometrics.isAvailable();
+      const result = await NitroBiometrics.getAvailability();
       setAvailability(result);
     } catch (error: any) {
       Alert.alert('Error', error?.message ?? String(error));
@@ -123,10 +55,19 @@ export default function HomeScreen() {
   }, []);
 
   const authenticate = useCallback(async () => {
-    setLoading('authenticate');
+    setLoading('auth');
     setAuthResult(null);
     try {
-      const result = await NitroBiometrics.authenticate('Verify your identity to continue');
+      const avail = await NitroBiometrics.getAvailability();
+      if (!avail.available) {
+        Alert.alert('Not Available', 'Biometrics are not available on this device.');
+        return;
+      }
+      if (!avail.isEnrolled) {
+        showEnrollmentAlert();
+        return;
+      }
+      const result = await NitroBiometrics.authenticate('Verify your identity');
       setAuthResult(result);
     } catch (error: any) {
       Alert.alert('Error', error?.message ?? String(error));
@@ -135,151 +76,123 @@ export default function HomeScreen() {
     }
   }, []);
 
-  const createKeys = useCallback(async () => {
-    setLoading('createKeys');
-    setKeyResult(null);
-    try {
-      const result = await NitroBiometrics.createKeys();
-      setKeyResult(result);
-    } catch (error: any) {
-      Alert.alert('Error', error?.message ?? String(error));
-    } finally {
-      setLoading(null);
-    }
-  }, []);
-
-  const signPayload = useCallback(async () => {
-    setLoading('sign');
-    setSignatureResult(null);
-    try {
-      const payload = JSON.stringify({
-        timestamp: Date.now(),
-        nonce: Math.random().toString(36).slice(2),
-      });
-      const result = await NitroBiometrics.signPayload(payload);
-      setSignatureResult(result);
-    } catch (error: any) {
-      Alert.alert('Error', error?.message ?? String(error));
-    } finally {
-      setLoading(null);
-    }
-  }, []);
-
-  const deleteKeys = useCallback(() => {
-    try {
-      NitroBiometrics.deleteKeys();
-      setKeyResult(null);
-      setSignatureResult(null);
-      Alert.alert('Keys Deleted', 'Keypair has been removed.');
-    } catch (error: any) {
-      Alert.alert('Error', error?.message ?? String(error));
-    }
-  }, []);
-
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>NitroBiometrics</Text>
-          <Text style={styles.headerSubtitle}>Biometric authentication demo</Text>
+        {/* Hero banner */}
+        <View style={styles.heroCard}>
+          <View style={styles.heroIconCircle}>
+            <Ionicons name="shield-checkmark" size={36} color="#fff" />
+          </View>
+          <Text style={styles.heroTitle}>NitroBiometrics</Text>
+          <Text style={styles.heroSubtitle}>
+            Secure biometric authentication for React Native, powered by Nitro Modules
+          </Text>
         </View>
 
-        {/* Quick Check */}
-        <SectionCard title="Module Check">
-          <ActionButton
-            title="Test works()"
-            onPress={checkWorks}
-            loading={loading === 'works'}
-          />
-        </SectionCard>
-
         {/* Availability */}
-        <SectionCard title="Availability">
-          <ActionButton
-            title="Check Availability"
-            onPress={checkAvailability}
-            loading={loading === 'availability'}
-          />
-          {availability && (
-            <View style={styles.resultContainer}>
-              <StatusBadge available={availability.isAvailable} />
-              {availability.biometryType !== null && (
-                <ResultBlock
-                  label="Biometry Type"
-                  value={BIOMETRY_TYPE_LABELS[availability.biometryType] ?? `Unknown (${availability.biometryType})`}
-                />
-              )}
-              {availability.error && (
-                <ResultBlock label="Error" value={availability.error} />
-              )}
-            </View>
-          )}
-        </SectionCard>
-
-        {/* Authenticate */}
-        <SectionCard title="Authenticate">
-          <ActionButton
-            title="Authenticate"
-            onPress={authenticate}
-            loading={loading === 'authenticate'}
-          />
-          {authResult && (
-            <View style={styles.resultContainer}>
-              <StatusBadge available={authResult.success} />
-              {authResult.error && (
-                <ResultBlock label="Error" value={authResult.error} />
-              )}
-            </View>
-          )}
-        </SectionCard>
-
-        {/* Key Management */}
-        <SectionCard title="Key Management">
-          <View style={styles.buttonRow}>
-            <View style={styles.buttonRowItem}>
-              <ActionButton
-                title="Create Keys"
-                onPress={createKeys}
-                loading={loading === 'createKeys'}
-                color="#059669"
-              />
-            </View>
-            <View style={styles.buttonRowItem}>
-              <ActionButton
-                title="Delete Keys"
-                onPress={deleteKeys}
-                color="#dc2626"
-              />
-            </View>
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.cardDot, { backgroundColor: '#4f46e5' }]} />
+            <Text style={styles.cardLabel}>AVAILABILITY</Text>
           </View>
-          {keyResult && (
-            <View style={styles.resultContainer}>
-              <ResultBlock label="Public Key (base64)" value={keyResult.publicKey} mono />
+          <Text style={styles.cardDesc}>
+            Check if this device supports biometric authentication.
+          </Text>
+          <TouchableOpacity
+            style={[styles.button, styles.buttonPrimary]}
+            onPress={checkAvailability}
+            disabled={loading === 'availability'}
+            activeOpacity={0.7}
+          >
+            {loading === 'availability' ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <>
+                <Ionicons name="scan-outline" size={18} color="#fff" />
+                <Text style={styles.buttonText}>Check Availability</Text>
+              </>
+            )}
+          </TouchableOpacity>
+          {availability && (
+            <View style={styles.results}>
+              <View style={[styles.badge, availability.available ? styles.badgeGreen : styles.badgeRed]}>
+                <Text style={[styles.badgeText, availability.available ? styles.badgeTextGreen : styles.badgeTextRed]}>
+                  {availability.available ? 'Available' : 'Unavailable'}
+                </Text>
+              </View>
+              {availability.supportedBiometryTypes.filter((t): t is number => t !== null).length > 0 && (
+                <View style={styles.resultRow}>
+                  <Ionicons name="hardware-chip-outline" size={14} color="#9ca3af" />
+                  <Text style={styles.resultText}>
+                    {availability.supportedBiometryTypes
+                      .filter((t): t is number => t !== null)
+                      .map(t => BIOMETRY_LABELS[t])
+                      .join(', ')}
+                  </Text>
+                </View>
+              )}
+              <View style={styles.resultRow}>
+                <Ionicons name="key-outline" size={14} color="#9ca3af" />
+                <Text style={styles.resultText}>
+                  Enrolled: {availability.isEnrolled ? 'Yes' : 'No'}
+                </Text>
+              </View>
+              {availability.unavailableReason && (
+                <View style={styles.resultRow}>
+                  <Ionicons name="alert-circle-outline" size={14} color='#dc2626' />
+                  <Text style={[styles.resultText, { color: '#dc2626' }]}>
+                    {availability.unavailableReason}
+                  </Text>
+                </View>
+              )}
             </View>
           )}
-        </SectionCard>
+        </View>
 
-        {/* Sign Payload */}
-        <SectionCard title="Sign Payload">
-          <ActionButton
-            title="Sign Random Payload"
-            onPress={signPayload}
-            loading={loading === 'sign'}
-            color="#7c3aed"
-          />
-          {signatureResult && (
-            <View style={styles.resultContainer}>
-              <ResultBlock label="Signature (base64)" value={signatureResult.signature} mono />
+        {/* Try It */}
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.cardDot, { backgroundColor: '#7c3aed' }]} />
+            <Text style={styles.cardLabel}>AUTHENTICATION</Text>
+          </View>
+          <Text style={styles.cardDesc}>
+            Test the biometric prompt and see the system authentication dialog.
+          </Text>
+          <TouchableOpacity
+            style={[styles.button, styles.buttonPrimary]}
+            onPress={authenticate}
+            disabled={loading === 'auth'}
+            activeOpacity={0.7}
+          >
+            {loading === 'auth' ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <>
+                <Ionicons name="finger-print-outline" size={18} color="#fff" />
+                <Text style={styles.buttonText}>Authenticate</Text>
+              </>
+            )}
+          </TouchableOpacity>
+          {authResult && (
+            <View style={styles.results}>
+              <View style={[styles.badge, authResult.success ? styles.badgeGreen : styles.badgeRed]}>
+                <Text style={[styles.badgeText, authResult.success ? styles.badgeTextGreen : styles.badgeTextRed]}>
+                  {authResult.success ? 'Success' : 'Failed'}
+                </Text>
+              </View>
+              {authResult.error && (
+                <View style={styles.resultRow}>
+                  <Ionicons name="close-circle-outline" size={14} color="#dc2626" />
+                  <Text style={[styles.resultText, { color: '#dc2626' }]}>{authResult.error}</Text>
+                </View>
+              )}
             </View>
           )}
-        </SectionCard>
-
-        <View style={styles.footer} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -290,28 +203,45 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f9fa',
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 16,
+  content: {
+    paddingHorizontal: 20,
     paddingTop: 16,
+    paddingBottom: 120,
   },
-  header: {
+
+  // ── Hero ────────────────────────────────────────────────────
+  heroCard: {
+    backgroundColor: '#4f46e5',
+    borderRadius: 20,
+    paddingVertical: 32,
+    paddingHorizontal: 24,
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
-  headerTitle: {
-    fontSize: 28,
+  heroIconCircle: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  heroTitle: {
+    fontSize: 24,
     fontWeight: '700',
-    color: '#1a1a2e',
-    letterSpacing: -0.5,
+    color: '#fff',
+    letterSpacing: -0.3,
   },
-  headerSubtitle: {
-    fontSize: 15,
-    color: '#6b7280',
-    marginTop: 4,
+  heroSubtitle: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.75)',
+    textAlign: 'center',
+    marginTop: 8,
+    lineHeight: 20,
   },
+
+  // ── Cards ───────────────────────────────────────────────────
   card: {
     backgroundColor: '#fff',
     borderRadius: 16,
@@ -319,80 +249,143 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
-  cardTitle: {
-    fontSize: 13,
-    fontWeight: '600',
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  cardDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  cardLabel: {
+    fontSize: 11,
+    fontWeight: '700',
     color: '#9ca3af',
     textTransform: 'uppercase',
-    letterSpacing: 0.8,
-    marginBottom: 14,
+    letterSpacing: 1,
   },
+  cardDesc: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+
+  // ── Buttons ─────────────────────────────────────────────────
   button: {
-    borderRadius: 12,
-    paddingVertical: 14,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 8,
+    borderRadius: 12,
+    paddingVertical: 14,
     minHeight: 48,
+  },
+  buttonPrimary: {
+    backgroundColor: '#4f46e5',
   },
   buttonText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
   },
-  buttonRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  buttonRowItem: {
-    flex: 1,
-  },
-  resultContainer: {
-    marginTop: 14,
-    paddingTop: 14,
+
+  // ── Results ─────────────────────────────────────────────────
+  results: {
+    marginTop: 16,
+    paddingTop: 16,
     borderTopWidth: 1,
     borderTopColor: '#f3f4f6',
+    gap: 8,
   },
   badge: {
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 20,
-    marginBottom: 10,
-  },
-  badgeGreen: {
-    backgroundColor: '#dcfce7',
-  },
-  badgeRed: {
-    backgroundColor: '#fee2e2',
-  },
-  badgeText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  resultBlock: {
-    marginTop: 8,
-  },
-  resultLabel: {
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#9ca3af',
     marginBottom: 4,
   },
-  resultValue: {
+  badgeGreen: { backgroundColor: '#dcfce7' },
+  badgeRed: { backgroundColor: '#fee2e2' },
+  badgeText: { fontSize: 13, fontWeight: '600' },
+  badgeTextGreen: { color: '#166534' },
+  badgeTextRed: { color: '#991b1b' },
+  resultRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  resultText: {
     fontSize: 14,
     color: '#374151',
   },
-  mono: {
-    fontFamily: 'Menlo',
-    fontSize: 11,
-    lineHeight: 16,
-    color: '#4b5563',
+
+  // ── Steps ───────────────────────────────────────────────────
+  steps: {
+    gap: 4,
   },
-  footer: {
-    height: 40,
+  stepRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 0,
+  },
+  stepTimeline: {
+    width: 24,
+    alignItems: 'center',
+  },
+  stepDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginTop: 4,
+  },
+  stepLine: {
+    width: 2,
+    flex: 1,
+    minHeight: 20,
+    backgroundColor: '#e5e7eb',
+    marginTop: 4,
+  },
+  stepContent: {
+    flex: 1,
+    paddingLeft: 12,
+    paddingBottom: 16,
+  },
+  stepTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1a1a2e',
+  },
+  stepDesc: {
+    fontSize: 13,
+    color: '#9ca3af',
+    marginTop: 2,
+  },
+
+  // ── CTA ─────────────────────────────────────────────────────
+  ctaCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: '#eef2ff',
+    borderRadius: 14,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+  },
+  ctaText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#4f46e5',
+    lineHeight: 20,
+  },
+  ctaBold: {
+    fontWeight: '700',
   },
 });
