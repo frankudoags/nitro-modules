@@ -21,6 +21,8 @@ namespace margelo::nitro::nitrobiometrics { enum class BiometricsAuthError; }
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 
 #include "BiometricsAvailability.hpp"
+#include <NitroModules/Promise.hpp>
+#include <NitroModules/JPromise.hpp>
 #include "JBiometricsAvailability.hpp"
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
@@ -33,8 +35,6 @@ namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 #include <optional>
 #include "JBiometricsUnavailableReason.hpp"
 #include "BiometricsAuthResult.hpp"
-#include <NitroModules/Promise.hpp>
-#include <NitroModules/JPromise.hpp>
 #include "JBiometricsAuthResult.hpp"
 #include "BiometricsAuthError.hpp"
 #include "JBiometricsAuthError.hpp"
@@ -75,10 +75,21 @@ namespace margelo::nitro::nitrobiometrics {
   
 
   // Methods
-  BiometricsAvailability JHybridNitroBiometricsSpec::getAvailability() {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JBiometricsAvailability>()>("getAvailability");
+  std::shared_ptr<Promise<BiometricsAvailability>> JHybridNitroBiometricsSpec::getAvailability() {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>()>("getAvailability");
     auto __result = method(_javaPart);
-    return __result->toCpp();
+    return [&]() {
+      auto __promise = Promise<BiometricsAvailability>::create();
+      __result->cthis()->addOnResolvedListener([=](const jni::alias_ref<jni::JObject>& __boxedResult) {
+        auto __result = jni::static_ref_cast<JBiometricsAvailability>(__boxedResult);
+        __promise->resolve(__result->toCpp());
+      });
+      __result->cthis()->addOnRejectedListener([=](const jni::alias_ref<jni::JThrowable>& __throwable) {
+        jni::JniException __jniError(__throwable);
+        __promise->reject(std::make_exception_ptr(__jniError));
+      });
+      return __promise;
+    }();
   }
   std::shared_ptr<Promise<BiometricsAuthResult>> JHybridNitroBiometricsSpec::authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) {
     static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPromise::javaobject>(jni::alias_ref<jni::JString> /* reason */, jni::alias_ref<JAuthenticateOptions> /* options */)>("authenticate");

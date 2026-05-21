@@ -33,7 +33,7 @@
       [
         "nitro-biometrics",
         {
-          "biometricTypes": ["touch_id", "face", "iris"]
+          "faceIDPermission": "Allow this app to use Face ID"
         }
       ]
     ]

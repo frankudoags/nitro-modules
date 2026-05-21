@@ -125,14 +125,21 @@ open class HybridNitroBiometricsSpec_cxx {
 
   // Methods
   @inline(__always)
-  public final func getAvailability() -> bridge.Result_BiometricsAvailability_ {
+  public final func getAvailability() -> bridge.Result_std__shared_ptr_Promise_BiometricsAvailability___ {
     do {
       let __result = try self.__implementation.getAvailability()
-      let __resultCpp = __result
-      return bridge.create_Result_BiometricsAvailability_(__resultCpp)
+      let __resultCpp = { () -> bridge.std__shared_ptr_Promise_BiometricsAvailability__ in
+        let __promise = bridge.create_std__shared_ptr_Promise_BiometricsAvailability__()
+        let __promiseHolder = bridge.wrap_std__shared_ptr_Promise_BiometricsAvailability__(__promise)
+        __result
+          .then({ __result in __promiseHolder.resolve(__result) })
+          .catch({ __error in __promiseHolder.reject(__error.toCpp()) })
+        return __promise
+      }()
+      return bridge.create_Result_std__shared_ptr_Promise_BiometricsAvailability___(__resultCpp)
     } catch (let __error) {
       let __exceptionPtr = __error.toCpp()
-      return bridge.create_Result_BiometricsAvailability_(__exceptionPtr)
+      return bridge.create_Result_std__shared_ptr_Promise_BiometricsAvailability___(__exceptionPtr)
     }
   }
   

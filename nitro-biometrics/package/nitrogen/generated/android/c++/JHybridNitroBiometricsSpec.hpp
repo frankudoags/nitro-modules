@@ -54,7 +54,7 @@ namespace margelo::nitro::nitrobiometrics {
 
   public:
     // Methods
-    BiometricsAvailability getAvailability() override;
+    std::shared_ptr<Promise<BiometricsAvailability>> getAvailability() override;
     std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) override;
 
   private:

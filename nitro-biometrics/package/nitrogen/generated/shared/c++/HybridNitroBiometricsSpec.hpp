@@ -21,8 +21,8 @@ namespace margelo::nitro::nitrobiometrics { struct BiometricsAuthResult; }
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 
 #include "BiometricsAvailability.hpp"
-#include "BiometricsAuthResult.hpp"
 #include <NitroModules/Promise.hpp>
+#include "BiometricsAuthResult.hpp"
 #include <string>
 #include "AuthenticateOptions.hpp"
 #include <optional>
@@ -58,7 +58,7 @@ namespace margelo::nitro::nitrobiometrics {
 
     public:
       // Methods
-      virtual BiometricsAvailability getAvailability() = 0;
+      virtual std::shared_ptr<Promise<BiometricsAvailability>> getAvailability() = 0;
       virtual std::shared_ptr<Promise<BiometricsAuthResult>> authenticate(const std::string& reason, const std::optional<AuthenticateOptions>& options) = 0;
 
     protected:

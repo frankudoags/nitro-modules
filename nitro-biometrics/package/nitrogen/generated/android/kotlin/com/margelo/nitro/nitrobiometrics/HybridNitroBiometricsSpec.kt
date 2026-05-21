@@ -31,7 +31,7 @@ abstract class HybridNitroBiometricsSpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun getAvailability(): BiometricsAvailability
+  abstract fun getAvailability(): Promise<BiometricsAvailability>
   
   @DoNotStrip
   @Keep

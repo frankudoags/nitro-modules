@@ -13,7 +13,7 @@ public protocol HybridNitroBiometricsSpec_protocol: HybridObject {
   
 
   // Methods
-  func getAvailability() throws -> BiometricsAvailability
+  func getAvailability() throws -> Promise<BiometricsAvailability>
   func authenticate(reason: String, options: AuthenticateOptions?) throws -> Promise<BiometricsAuthResult>
 }
 

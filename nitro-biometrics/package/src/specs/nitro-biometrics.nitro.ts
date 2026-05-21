@@ -11,7 +11,7 @@ export interface NitroBiometrics
    * Returns availability, enrollment status, and supported biometric type
    * in a single call. Check this before calling authenticate().
    */
-  getAvailability(): BiometricsAvailability
+  getAvailability(): Promise<BiometricsAvailability>
 
   /**
    * Shows the biometric authentication prompt.

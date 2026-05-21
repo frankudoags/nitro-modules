@@ -14,10 +14,10 @@
 
 namespace margelo::nitro::nitrobiometrics::bridge::swift {
 
-  // pragma MARK: std::function<void(const BiometricsAuthResult& /* result */)>
-  Func_void_BiometricsAuthResult create_Func_void_BiometricsAuthResult(void* NON_NULL swiftClosureWrapper) noexcept {
-    auto swiftClosure = NitroBiometrics::Func_void_BiometricsAuthResult::fromUnsafe(swiftClosureWrapper);
-    return [swiftClosure = std::move(swiftClosure)](const BiometricsAuthResult& result) mutable -> void {
+  // pragma MARK: std::function<void(const BiometricsAvailability& /* result */)>
+  Func_void_BiometricsAvailability create_Func_void_BiometricsAvailability(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_BiometricsAvailability::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const BiometricsAvailability& result) mutable -> void {
       swiftClosure.call(result);
     };
   }
@@ -27,6 +27,14 @@ namespace margelo::nitro::nitrobiometrics::bridge::swift {
     auto swiftClosure = NitroBiometrics::Func_void_std__exception_ptr::fromUnsafe(swiftClosureWrapper);
     return [swiftClosure = std::move(swiftClosure)](const std::exception_ptr& error) mutable -> void {
       swiftClosure.call(error);
+    };
+  }
+  
+  // pragma MARK: std::function<void(const BiometricsAuthResult& /* result */)>
+  Func_void_BiometricsAuthResult create_Func_void_BiometricsAuthResult(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = NitroBiometrics::Func_void_BiometricsAuthResult::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](const BiometricsAuthResult& result) mutable -> void {
+      swiftClosure.call(result);
     };
   }
   

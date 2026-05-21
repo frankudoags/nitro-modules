@@ -26,6 +26,7 @@ namespace margelo::nitro::nitrobiometrics { enum class BiometricsAuthError; }
 namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 
 #include "BiometricsAvailability.hpp"
+#include <NitroModules/Promise.hpp>
 #include <NitroModules/Null.hpp>
 #include "BiometryType.hpp"
 #include <variant>
@@ -33,7 +34,6 @@ namespace margelo::nitro::nitrobiometrics { struct AuthenticateOptions; }
 #include "BiometricsUnavailableReason.hpp"
 #include <optional>
 #include "BiometricsAuthResult.hpp"
-#include <NitroModules/Promise.hpp>
 #include "BiometricsAuthError.hpp"
 #include <string>
 #include "AuthenticateOptions.hpp"
@@ -88,7 +88,7 @@ namespace margelo::nitro::nitrobiometrics {
 
   public:
     // Methods
-    inline BiometricsAvailability getAvailability() override {
+    inline std::shared_ptr<Promise<BiometricsAvailability>> getAvailability() override {
       auto __result = _swiftPart.getAvailability();
       if (__result.hasError()) [[unlikely]] {
         std::rethrow_exception(__result.error());
